@@ -177,10 +177,10 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
       // 5. Perfect precise target times mapping (derived from exact Fourier analysis of the audio segments)
       const perfectTimes = [
         { start: 9.00, end: 11.54 },
-        { start: 13.06, end: 17.64 },
-        { start: 19.50, end: 20.38 },
-        { start: 22.98, end: 23.70 },
-        { start: 25.62, end: 32.72 },
+        { start: 13.06, end: 20.38 },
+        { start: 22.72, end: 23.70 },
+        { start: 24.74, end: 25.92 },
+        { start: 27.08, end: 32.72 },
         { start: 36.50, end: 38.16 },
         { start: 39.42, end: 40.78 },
         { start: 42.54, end: 42.98 },

@@ -35,7 +35,7 @@ export const booksData = [
         text: "She tugs up thick weeds, then digs a big border and plants leafy trees.",
         translation: "她拔掉粗壮的杂草，然后挖了一个大花坛，并种上了叶子茂密的树木。",
         audioStart: 13.1,
-        audioEnd: 17.6,
+        audioEnd: 20.4,
         grammarNote: "tugs up 费力拔起；digs a big border 挖大花坛；plants 种植。这三个动词是并列关系，因为主语是 She，所以动词都加了 s。",
         words: ["garden"]
       },
@@ -43,8 +43,8 @@ export const booksData = [
         id: "s3",
         text: "Giraffe is tired out.",
         translation: "长颈鹿累坏了。",
-        audioStart: 19.5,
-        audioEnd: 20.4,
+        audioStart: 22.7,
+        audioEnd: 23.7,
         grammarNote: "tired out 是一个固定短语，表示精疲力竭、非常累。",
         words: []
       },
@@ -52,8 +52,8 @@ export const booksData = [
         id: "s4",
         text: "She trots up the path.",
         translation: "她小跑着走上小路。",
-        audioStart: 23.0,
-        audioEnd: 23.7,
+        audioStart: 24.7,
+        audioEnd: 25.9,
         grammarNote: "trots up 小跑着往上走；path 表示小径、小路。",
         words: []
       },
@@ -61,7 +61,7 @@ export const booksData = [
         id: "s5",
         text: "Now I'm grubby and muddy; I need a hot bath.",
         translation: "现在我又脏又泥，我需要洗个热水澡。",
-        audioStart: 25.6,
+        audioStart: 27.1,
         audioEnd: 32.7,
         grammarNote: "grubby 表示脏兮兮的；muddy 表示满是泥巴的；need 需要；hot bath 热水澡。",
         words: ["muddy", "bath"]
