@@ -1,0 +1,60 @@
+/* src/styles/variables.css */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Noto+Sans+SC:wght@300..900&display=swap');
+
+:root {
+  /* Color Palette - Soft Playful Macaron Theme */
+  --bg-app: #fffefa;            /* Warm creamy white */
+  --bg-card: #ffffff;           /* Crisp clean white */
+  --bg-hover: #fff9eb;          /* Gentle warm yellow hover */
+  
+  /* Brand/Role Colors */
+  --color-pink: #ff8fb1;        /* Playful Bubble Pink */
+  --color-pink-hover: #ff769f;
+  --color-pink-shadow: #e06d8f;
+  
+  --color-blue: #7dc4ff;        /* Sky Blue */
+  --color-blue-hover: #5ab3ff;
+  --color-blue-shadow: #599ede;
+  
+  --color-mint: #8ce7bb;        /* Mint Green */
+  --color-mint-hover: #6cd9a3;
+  --color-mint-shadow: #63bc91;
+  
+  --color-yellow: #ffe483;      /* Sunshine Yellow */
+  --color-yellow-hover: #ffd952;
+  --color-yellow-shadow: #dbba3f;
+
+  --color-lilac: #d3b3ff;       /* Lilac Purple */
+  --color-lilac-hover: #be94ff;
+  --color-lilac-shadow: #a178e0;
+
+  --color-orange: #ffb77d;      /* Soft Mandarin Orange */
+  --color-orange-hover: #ff9e54;
+  --color-orange-shadow: #df813b;
+  
+  /* Neutral Typography Colors */
+  --text-dark: #3a3f47;         /* Soft dark for high legibility without harsh black */
+  --text-medium: #5c6470;
+  --text-light: #8e99a8;
+  --text-white: #ffffff;
+  
+  /* Borders and Radius */
+  --border-color: #f3f1eb;
+  --border-radius-bubble: 28px;
+  --border-radius-card: 24px;
+  --border-radius-button: 20px;
+  --border-radius-badge: 12px;
+  
+  /* Advanced Tactile Box Shadows (3D Bubble Effect) */
+  --shadow-card: 0 10px 0 #f0ede4, 0 15px 30px rgba(139, 126, 102, 0.08);
+  --shadow-card-hover: 0 16px 0 #e5e0d4, 0 20px 45px rgba(139, 126, 102, 0.15);
+  
+  --shadow-bubble: 0 8px 0 rgba(0, 0, 0, 0.04), 0 15px 30px rgba(0, 0, 0, 0.03);
+  
+  /* High Elasticity Bounce Transitions */
+  --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --transition-smooth: all 0.2s ease-in-out;
+  
+  /* Typography Scale */
+  --font-kids: 'Fredoka', 'Outfit', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+}

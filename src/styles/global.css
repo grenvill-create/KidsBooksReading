@@ -1,0 +1,290 @@
+/* src/styles/global.css */
+@import './variables.css';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-kids);
+  background-color: var(--bg-app);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Child-friendly Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-blue);
+  border: 3px solid var(--bg-app);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-blue-hover);
+}
+
+/* General Layouts */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+}
+
+/* Header & Navigation */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: var(--border-radius-bubble);
+  border: 2px solid var(--border-color);
+  box-shadow: var(--shadow-bubble);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-pink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+}
+.logo:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-badge);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-dark);
+  box-shadow: 0 4px 0 var(--border-color);
+}
+
+.stat-badge.gold {
+  background: #fffdf0;
+  border-color: var(--color-yellow);
+  color: var(--color-orange-hover);
+  box-shadow: 0 4px 0 var(--color-yellow-shadow);
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Playful Bubble Button - THE 3D BUTTON SYSTEM */
+.btn-bubble {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-kids);
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: var(--border-radius-button);
+  border: 2px solid #333;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition: var(--transition-bounce);
+  position: relative;
+  top: 0;
+}
+
+.btn-bubble:active {
+  transform: translateY(4px);
+}
+
+/* Bubble Pink Button */
+.btn-pink {
+  background-color: var(--color-pink);
+  color: var(--text-white);
+  border-color: #ffeef2;
+  box-shadow: 0 6px 0 var(--color-pink-shadow), 0 8px 15px rgba(255, 143, 177, 0.2);
+}
+.btn-pink:hover {
+  background-color: var(--color-pink-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--color-pink-shadow), 0 10px 20px rgba(255, 143, 177, 0.3);
+}
+.btn-pink:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--color-pink-shadow);
+}
+
+/* Bubble Blue Button */
+.btn-blue {
+  background-color: var(--color-blue);
+  color: var(--text-white);
+  border-color: #ebf6ff;
+  box-shadow: 0 6px 0 var(--color-blue-shadow), 0 8px 15px rgba(125, 196, 255, 0.2);
+}
+.btn-blue:hover {
+  background-color: var(--color-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--color-blue-shadow), 0 10px 20px rgba(125, 196, 255, 0.3);
+}
+.btn-blue:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--color-blue-shadow);
+}
+
+/* Bubble Mint Button */
+.btn-mint {
+  background-color: var(--color-mint);
+  color: var(--text-white);
+  border-color: #f0fdf4;
+  box-shadow: 0 6px 0 var(--color-mint-shadow), 0 8px 15px rgba(140, 231, 187, 0.2);
+}
+.btn-mint:hover {
+  background-color: var(--color-mint-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--color-mint-shadow), 0 10px 20px rgba(140, 231, 187, 0.3);
+}
+.btn-mint:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--color-mint-shadow);
+}
+
+/* Bubble Yellow Button */
+.btn-yellow {
+  background-color: var(--color-yellow);
+  color: var(--text-dark);
+  border-color: #fffbeb;
+  box-shadow: 0 6px 0 var(--color-yellow-shadow), 0 8px 15px rgba(255, 228, 131, 0.2);
+}
+.btn-yellow:hover {
+  background-color: var(--color-yellow-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--color-yellow-shadow), 0 10px 20px rgba(255, 228, 131, 0.3);
+}
+.btn-yellow:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--color-yellow-shadow);
+}
+
+/* Bubble Lilac Button */
+.btn-lilac {
+  background-color: var(--color-lilac);
+  color: var(--text-white);
+  border-color: #faf5ff;
+  box-shadow: 0 6px 0 var(--color-lilac-shadow), 0 8px 15px rgba(211, 179, 255, 0.2);
+}
+.btn-lilac:hover {
+  background-color: var(--color-lilac-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--color-lilac-shadow), 0 10px 20px rgba(211, 179, 255, 0.3);
+}
+.btn-lilac:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--color-lilac-shadow);
+}
+
+/* Gray/Secondary Button */
+.btn-secondary {
+  background-color: var(--bg-card);
+  color: var(--text-medium);
+  border-color: var(--border-color);
+  box-shadow: 0 6px 0 var(--border-color), 0 8px 15px rgba(0,0,0,0.02);
+}
+.btn-secondary:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--border-color), 0 10px 20px rgba(0,0,0,0.04);
+}
+.btn-secondary:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--border-color);
+}
+
+/* Interactive Card System */
+.bubble-card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius-card);
+  border: 2px solid var(--border-color);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-bounce);
+}
+.bubble-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Confetti Sparkles */
+@keyframes pop-sparkle {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  animation: pop-sparkle 0.6s ease-out forwards;
+}
+
+/* Reading Tracker highlight states */
+.word-clickable {
+  cursor: pointer;
+  display: inline-block;
+  padding: 2px 4px;
+  margin: 0 1px;
+  border-radius: 8px;
+  transition: var(--transition-smooth);
+}
+.word-clickable:hover {
+  background: var(--color-yellow);
+  color: var(--text-dark);
+  transform: scale(1.08) translateY(-1px);
+}
+.word-reading-active {
+  background: var(--color-blue);
+  color: var(--text-white) !important;
+  box-shadow: 0 4px 0 var(--color-blue-shadow);
+  transform: scale(1.05);
+}
+.sentence-highlight {
+  background: rgba(125, 196, 255, 0.15);
+  border-radius: 12px;
+  padding: 4px 8px;
+}
