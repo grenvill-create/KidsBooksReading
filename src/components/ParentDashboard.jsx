@@ -8,6 +8,8 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Web Audio API Silence Detector States
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -20,23 +22,87 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
   const canvasRef = useRef(null);
   const animationFrameRef = useRef(null);
 
+  const shouldPlayRef = useRef(false);
+
   // Reset audio when selected sentence changes
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.pause();
-      setIsPlaying(false);
       audioRef.current.currentTime = sentences[selectedSentenceIndex].audioStart;
+      
+      if (shouldPlayRef.current) {
+        audioRef.current.play();
+        setIsPlaying(true);
+        shouldPlayRef.current = false;
+      } else {
+        setIsPlaying(false);
+      }
     }
   }, [selectedSentenceIndex]);
+
+  // Play or pause a specific sentence segment
+  const togglePlaySentence = (idx) => {
+    if (!audioRef.current) return;
+    
+    if (isPlaying && selectedSentenceIndex === idx) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      if (selectedSentenceIndex === idx) {
+        audioRef.current.currentTime = sentences[idx].audioStart;
+        audioRef.current.play();
+        setIsPlaying(true);
+      } else {
+        shouldPlayRef.current = true;
+        setSelectedSentenceIndex(idx);
+      }
+    }
+  };
+
+  // Save the edited timestamps to src/data/booksData.js via backend API
+  const saveToLocalFile = async () => {
+    setIsSaving(true);
+    setSaveSuccess(false);
+    try {
+      const response = await fetch('/api/save-books', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          bookId: book.id,
+          sentences: sentences
+        })
+      });
+      const resData = await response.json();
+      if (resData.success) {
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 2000);
+      } else {
+        alert("保存失败: " + resData.error);
+      }
+    } catch (err) {
+      console.error("Save error:", err);
+      alert("保存失败，请检查后端 API 服务是否正常！");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   // Handle sentence time changes
   const handleTimeChange = (index, field, value) => {
     const updated = [...sentences];
+    const numVal = parseFloat(value) || 0;
     updated[index] = {
       ...updated[index],
-      [field]: parseFloat(value) || 0
+      [field]: numVal
     };
     setSentences(updated);
+
+    // Auto-seek the player to new start point for instant audio alignment checks
+    if (index === selectedSentenceIndex && field === 'audioStart' && audioRef.current) {
+      audioRef.current.currentTime = numVal;
+    }
   };
 
   // Play current segment
@@ -434,17 +500,23 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
                 )}
               </div>
 
-              {/* JS Exporter */}
+              {/* JS Exporter / Direct Save */}
               <div className="js-exporter bubble-card" style={{ background: '#f8fafc', borderLeft: '6px solid var(--color-mint)', marginTop: 24 }}>
-                <div className="exporter-header">
-                  <h4>💾 一键导出 JS 配置字段</h4>
-                  <button className="btn-bubble btn-mint btn-sm" onClick={copyJSCode}>
-                    {isCopied ? <Check size={16} /> : <Copy size={16} />}
-                    {isCopied ? "复制成功！" : "拷贝配置代码"}
-                  </button>
+                <div className="exporter-header" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h4>💾 校对对齐结果保存与导出</h4>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className="btn-bubble btn-mint btn-sm" onClick={saveToLocalFile} disabled={isSaving}>
+                      {isSaving ? <RefreshCw className="animate-spin" size={16} /> : (saveSuccess ? <Check size={16} /> : <Save size={16} />)}
+                      {isSaving ? "正在保存..." : (saveSuccess ? "保存成功！" : "保存修改到文件")}
+                    </button>
+                    <button className="btn-bubble btn-secondary btn-sm" onClick={copyJSCode}>
+                      {isCopied ? <Check size={16} /> : <Copy size={16} />}
+                      {isCopied ? "复制成功！" : "拷贝配置代码"}
+                    </button>
+                  </div>
                 </div>
-                <p style={{ fontSize: 13, color: 'var(--text-medium)', marginBottom: 12 }}>
-                  配置打点秒数微调满意后，点击右侧按钮复制 JS 数据段，直接覆盖到 <code>src/data/booksData.js</code> 对应位置即可永久生效！
+                <p style={{ fontSize: 13, color: 'var(--text-medium)', marginBottom: 0, marginTop: 8 }}>
+                  校对打点时间微调后，点击<b>“保存修改到文件”</b>可直接<b>写入并永久保存</b>到项目的 <code>src/data/booksData.js</code> 配置文件中！您也可以点击“拷贝配置代码”进行文本备份。
                 </p>
               </div>
             </div>
@@ -488,6 +560,16 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
                         </div>
                       </div>
                     </div>
+                    <button 
+                      className={`btn-play-row ${isPlaying && selectedSentenceIndex === idx ? 'playing' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        togglePlaySentence(idx);
+                      }}
+                      title="试听当前句子"
+                    >
+                      {isPlaying && selectedSentenceIndex === idx ? <Pause size={14} /> : <Play size={14} />}
+                    </button>
                   </div>
                 ))}
               </div>
@@ -757,6 +839,37 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
           border-color: var(--color-pink);
           box-shadow: 0 0 10px rgba(255, 143, 177, 0.15);
           background: #fffdfd;
+        }
+        .btn-play-row {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #f0fdf4;
+          border: 1px solid #dcfce7;
+          color: var(--color-mint-hover);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: var(--transition-bounce);
+          flex-shrink: 0;
+          margin-left: 8px;
+          align-self: center;
+        }
+        .btn-play-row:hover {
+          transform: scale(1.1);
+          background: var(--color-mint);
+          color: white;
+          border-color: var(--color-mint);
+        }
+        .btn-play-row.playing {
+          background: var(--color-pink);
+          color: white;
+          border-color: var(--color-pink);
+        }
+        .btn-play-row.playing:hover {
+          background: var(--color-pink-hover);
+          border-color: var(--color-pink-hover);
         }
         .num-circle {
           width: 24px;
