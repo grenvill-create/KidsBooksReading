@@ -141,6 +141,7 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
         return s;
       });
       setSentences(alignedSentences);
+      window.__ALIGNED_SENTENCES__ = alignedSentences; // Expose for programmatic alignment helper
       
       setAnalysisProgress(100);
       setTimeout(() => setIsAnalyzing(false), 800);
