@@ -8,7 +8,7 @@ export const booksData = [
     ageGroup: "4-6 years",
     coverEmoji: "🦒🛁🧼",
     coverColor: "var(--color-blue)",
-    audioUrl: "book sound/giraffe_in_the_bath_american.mp3",
+    audioUrl: "book_sound/giraffe_in_the_bath_american.mp3",
     summary: "Giraffe worked hard in her garden today. Now she is tired and muddy and wants to take a hot bath, but there are so many funny interruptions! What will happen to her bathtub?",
     words: {
       garden: { translation: "花园", phonetic: "[ˈɡɑːdn]", emoji: "🏡", example: "Giraffe is in her garden." },
