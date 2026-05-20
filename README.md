@@ -67,8 +67,24 @@ npm run build
 ```
 这将在 `dist` 目录下输出高度压缩、极速加载的静态网页包。
 
-### 部署到 GitHub Pages
-项目已经在 `vite.config.js` 中配置了基准路径，支持直接一键打包部署。后续可通过公网网址在您的手机、iPad 上流畅交互！
+### 🚀 在线访问与移动端更新工作流 (Mobile & GitHub Pages)
+
+本项目已经集成 `gh-pages` 部署脚本，支持一键发布到 GitHub Pages，并支持在手机端随时随地给绘本进行精细打点校对！
+
+**一键发布命令**：
+```bash
+npm run deploy
+```
+
+**✅ 线上访问地址**：
+👉 **[https://grenvill-create.github.io/KidsBooksReading/](https://grenvill-create.github.io/KidsBooksReading/)**
+
+**📱 手机端校准对齐时间工作流**：
+由于部署后的 GitHub Pages 是纯静态网页，在手机端微调时间后，需按照以下步骤将配置同步回仓库：
+1. **手机端微调**：在手机浏览器中打开“家长管理中心”，利用句子旁的 **▶️ 播放按钮** 进行微调与试听。
+2. **提取数据**：全部微调满意后，点击界面上的 **“拷贝配置代码”** 按钮。
+3. **回传电脑**：将剪贴板中的 JSON 数组发送至微信文件传输助手，然后在电脑上将其粘贴替换进 `src/data/booksData.js` 文件中对应的地方。
+4. **重新部署**：在电脑终端中执行 `npm run deploy` 即可更新线上版本！
 
 ---
 
