@@ -136,7 +136,7 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     setAnalysisProgress(10);
     try {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const response = await fetch('/' + book.audioUrl);
+      const response = await fetch(import.meta.env.BASE_URL + book.audioUrl);
       const arrayBuffer = await response.arrayBuffer();
       setAnalysisProgress(30);
       
@@ -399,7 +399,7 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     <div className="parent-container">
       <audio 
         ref={audioRef} 
-        src={'/' + book.audioUrl} 
+        src={import.meta.env.BASE_URL + book.audioUrl} 
         onTimeUpdate={handleAudioTimeUpdate} 
       />
 

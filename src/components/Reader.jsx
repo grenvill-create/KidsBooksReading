@@ -232,7 +232,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
       {/* Invisible HTML5 Audio Tag */}
       <audio 
         ref={audioRef} 
-        src={book.audioUrl} 
+        src={import.meta.env.BASE_URL + book.audioUrl} 
         preload="auto"
       />
 
