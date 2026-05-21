@@ -131,10 +131,10 @@ export const booksData = [
       },
       {
         id: "s13",
-        text: "'A package for Jackal! Please sign on line four.'",
+        text: "A package for Jackal! Not me, that's for sure !",
         translation: "“这是给胡狼的包裹！请在第四行签字。”",
         audioStart: 65.2,
-        audioEnd: 71.8,
+        audioEnd: 70,
         grammarNote: "package 包裹；for 给...的；please sign 请签字；on line four 在第四行。",
         words: ["package"]
       },
@@ -158,10 +158,10 @@ export const booksData = [
       },
       {
         id: "s16",
-        text: "The bathtub goes sliding on a river of soap,",
+        text: "The bathtub goes sliding, through slippery soap.",
         translation: "浴缸在肥皂河上滑行，",
         audioStart: 86.8,
-        audioEnd: 89.7,
+        audioEnd: 92,
         grammarNote: "goes sliding 滑动；river of soap 肥皂组成的河流（夸张的说法）；soap 肥皂。",
         words: []
       },
@@ -176,10 +176,10 @@ export const booksData = [
       },
       {
         id: "s18",
-        text: "'Look out!' she shouts.",
+        text: "' Look out ! ' shouts Giraffe, her voice all a-quiver.",
         translation: "“小心！”她大喊道。",
-        audioStart: 100.6,
-        audioEnd: 102.6,
+        audioStart: 100,
+        audioEnd: 104,
         grammarNote: "Look out 相当于 Be careful，小心、注意；shouts 大声喊。",
         words: []
       },
@@ -212,7 +212,7 @@ export const booksData = [
       },
       {
         id: "s22",
-        text: "Over the line in the big bathtub race, 'What a win!' cries the judge. 'Here's your prize for first place!'",
+        text: "Over the line in the big bathtub race, 'What a win!' cries the judge. ' Here's your prize for first place ! '",
         translation: "冲过了盛大浴缸赛的终点线，“赢得漂亮！”裁判大喊，“这是你第一名的奖品！”",
         audioStart: 124.2,
         audioEnd: 133.5,
