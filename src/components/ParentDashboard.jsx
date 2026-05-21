@@ -24,6 +24,46 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
 
   const shouldPlayRef = useRef(false);
 
+  // 动态容错解析音频路径（智能适配部署到 GitHub Pages、自定义域名或二级路径名错位导致的资源 404 顽疾）
+  const getAudioSrc = () => {
+    const rawPath = book.audioUrl;
+    if (!rawPath) return '';
+    
+    const cleanPath = rawPath.startsWith('/') ? rawPath.substring(1) : rawPath;
+    
+    // 自动检测当前部署的二级路径（比如仓库名 /KidsEnglish/ 或 /KidsBooksReading/）
+    const pathname = window.location.pathname;
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (!isLocalhost && pathSegments.length > 0) {
+      // 在 GitHub Pages 等托管环境中，第一个段通常就是仓库名，以此构建绝对路径
+      const repoName = pathSegments[0];
+      return `${window.location.origin}/${repoName}/${cleanPath}`;
+    }
+    
+    // 兜底返回相对路径，由浏览器自适应解析
+    return cleanPath;
+  };
+
+  // 音频加载错误监控与自动路径容错降级
+  const handleAudioError = (e) => {
+    const audioEl = audioRef.current;
+    if (!audioEl) return;
+    
+    console.error("[Audio Loader] 自动对齐器音频加载失败。当前请求路径:", audioEl.src);
+    
+    // 最终兜底：如果基于子路径自动拼接的 URL 还是失败，我们降级切换到最稳健的纯相对路径
+    const currentSrc = audioEl.src;
+    const relativePath = book.audioUrl;
+    
+    if (currentSrc && !currentSrc.endsWith(relativePath)) {
+      console.log("[Audio Loader] 正在自动激活终极兜底策略：切换到纯相对路径:", relativePath);
+      audioEl.src = relativePath;
+      audioEl.load();
+    }
+  };
+
   // Reset audio when selected sentence changes
   useEffect(() => {
     if (audioRef.current) {
@@ -136,7 +176,7 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     setAnalysisProgress(10);
     try {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const response = await fetch(import.meta.env.BASE_URL + book.audioUrl);
+      const response = await fetch(getAudioSrc());
       const arrayBuffer = await response.arrayBuffer();
       setAnalysisProgress(30);
       
@@ -399,8 +439,9 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     <div className="parent-container">
       <audio 
         ref={audioRef} 
-        src={import.meta.env.BASE_URL + book.audioUrl} 
+        src={getAudioSrc()} 
         onTimeUpdate={handleAudioTimeUpdate} 
+        onError={handleAudioError}
       />
 
       <div className="parent-header">
