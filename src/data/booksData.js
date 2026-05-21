@@ -68,7 +68,7 @@ export const booksData = [
       },
       {
         id: "s6",
-        text: "She jumps in the tub with a splish and a splash.",
+        text: "She jumps in the tub with a splish and a splosh.",
         translation: "她扑通一声跳进了浴缸里。",
         audioStart: 34,
         audioEnd: 38.9,
@@ -80,7 +80,7 @@ export const booksData = [
         text: "The bubbles float upwards.",
         translation: "泡泡向上漂浮起来。",
         audioStart: 38.8,
-        audioEnd: 40.8,
+        audioEnd: 41,
         grammarNote: "bubbles 泡泡；float 漂浮；upwards 向上。",
         words: []
       },
@@ -142,17 +142,17 @@ export const booksData = [
         id: "s14",
         text: "Giraffe tries to relax with her eyes tightly shut.",
         translation: "长颈鹿紧闭双眼，试图放松一下。",
-        audioStart: 73.7,
-        audioEnd: 77,
+        audioStart: 73.1,
+        audioEnd: 78,
         grammarNote: "relax 放松；with her eyes tightly shut 伴随状语，表示“紧闭双眼”；tightly 紧紧地；shut 闭上。",
         words: []
       },
       {
         id: "s15",
-        text: "Baboon backs his truck... whoops! Through the side of her hut!",
-        translation: "狒狒倒着他的卡车……哎呀！撞穿了她的木屋！",
-        audioStart: 78.8,
-        audioEnd: 83.6,
+        text: "But Baboon backs his truck... whoops! Through the side of her hut!",
+        translation: "可是狒狒倒着卡车……哎呀！竟然直接撞穿了她小屋的侧墙！",
+        audioStart: 77.8,
+        audioEnd: 83.7,
         grammarNote: "backs his truck 倒卡车；whoops 哎呀（表示惊讶或糟糕）；through 穿过/撞穿；side 一侧；hut 小木屋。",
         words: ["truck"]
       },
@@ -205,8 +205,8 @@ export const booksData = [
         id: "s21",
         text: "Soon her bathtub is bobbing past lots of odd craft.",
         translation: "很快，她的浴缸在许多奇形怪状的船只旁上下浮动。",
-        audioStart: 115.9,
-        audioEnd: 120.1,
+        audioStart: 115.7,
+        audioEnd: 120.3,
         grammarNote: "bobbing 随波上下跳动；past 经过；lots of 许多；odd 奇怪的；craft 船只（这里复数单写）。",
         words: []
       },
