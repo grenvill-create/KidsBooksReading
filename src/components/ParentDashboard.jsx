@@ -145,6 +145,13 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     }
   };
 
+  // Handle sentence text edits
+  const handleTextChange = (index, value) => {
+    const updated = [...sentences];
+    updated[index] = { ...updated[index], text: value };
+    setSentences(updated);
+  };
+
   // Play current segment
   const playSegment = () => {
     if (!audioRef.current) return;
@@ -575,7 +582,14 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
                   >
                     <div className="num-circle">{idx + 1}</div>
                     <div className="body-inputs">
-                      <p className="en-preview">{sentence.text}</p>
+                      <textarea
+                        className="sentence-text-editor"
+                        value={sentence.text}
+                        rows={2}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => handleTextChange(idx, e.target.value)}
+                        title="点击可直接修改句子文字，改完后点保存"
+                      />
                       <div className="time-sliders">
                         <div className="time-input-group">
                           <span>起:</span>
@@ -937,6 +951,31 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
           font-weight: 700;
           color: var(--text-dark);
           margin-bottom: 8px;
+        }
+        .sentence-text-editor {
+          width: 100%;
+          font-size: 14px;
+          font-weight: 700;
+          color: var(--text-dark);
+          background: transparent;
+          border: 1.5px dashed transparent;
+          border-radius: 8px;
+          padding: 4px 6px;
+          margin-bottom: 6px;
+          resize: none;
+          font-family: inherit;
+          line-height: 1.5;
+          transition: border-color 0.2s, background 0.2s;
+          box-sizing: border-box;
+        }
+        .sentence-text-editor:hover {
+          border-color: var(--color-blue);
+          background: #f0f7ff;
+        }
+        .sentence-text-editor:focus {
+          outline: none;
+          border-color: var(--color-pink);
+          background: #fff5f9;
         }
         .time-sliders {
           display: flex;
