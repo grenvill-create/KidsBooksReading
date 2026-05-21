@@ -23,6 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 
-# Ignore original audio source folder at root (since it's now copied inside public/)
-/book sound/
-

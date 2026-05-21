@@ -22,7 +22,7 @@ export default defineConfig({
                 const data = JSON.parse(body);
                 const { bookId, sentences } = data;
                 
-                const dbPath = path.resolve(__dirname, 'src/data/booksData.js');
+                const dbPath = path.resolve(process.cwd(), 'src/data/booksData.js');
                 let content = fs.readFileSync(dbPath, 'utf-8');
                 
                 // Generate formatted JS sentence array
