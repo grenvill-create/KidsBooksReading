@@ -152,6 +152,13 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     setSentences(updated);
   };
 
+  // Handle Chinese translation edits
+  const handleTranslationChange = (index, value) => {
+    const updated = [...sentences];
+    updated[index] = { ...updated[index], translation: value };
+    setSentences(updated);
+  };
+
   // Play current segment
   const playSegment = () => {
     if (!audioRef.current) return;
@@ -588,7 +595,15 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
                         rows={2}
                         onClick={(e) => e.stopPropagation()}
                         onChange={(e) => handleTextChange(idx, e.target.value)}
-                        title="点击可直接修改句子文字，改完后点保存"
+                        title="点击可直接修改英文句子，改完后点保存"
+                      />
+                      <textarea
+                        className="sentence-translation-editor"
+                        value={sentence.translation}
+                        rows={1}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => handleTranslationChange(idx, e.target.value)}
+                        title="点击可直接修改中文翻译，改完后点保存"
                       />
                       <div className="time-sliders">
                         <div className="time-input-group">
@@ -976,6 +991,31 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
           outline: none;
           border-color: var(--color-pink);
           background: #fff5f9;
+        }
+        .sentence-translation-editor {
+          width: 100%;
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--text-medium);
+          background: transparent;
+          border: 1.5px dashed transparent;
+          border-radius: 8px;
+          padding: 3px 6px;
+          margin-bottom: 6px;
+          resize: none;
+          font-family: inherit;
+          line-height: 1.5;
+          transition: border-color 0.2s, background 0.2s;
+          box-sizing: border-box;
+        }
+        .sentence-translation-editor:hover {
+          border-color: var(--color-mint);
+          background: #f0fdf9;
+        }
+        .sentence-translation-editor:focus {
+          outline: none;
+          border-color: var(--color-mint);
+          background: #e8faf4;
         }
         .time-sliders {
           display: flex;
