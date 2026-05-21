@@ -132,7 +132,7 @@ export const booksData = [
       {
         id: "s13",
         text: "A package for Jackal! Not me, that's for sure !",
-        translation: "“这是给胡狼的包裹！请在第四行签字。”",
+        translation: "“这是给胡狼的包裹！肯定不是给我的。”",
         audioStart: 65.2,
         audioEnd: 70,
         grammarNote: "package 包裹；for 给...的；please sign 请签字；on line four 在第四行。",
@@ -159,7 +159,7 @@ export const booksData = [
       {
         id: "s16",
         text: "The bathtub goes sliding, through slippery soap.",
-        translation: "浴缸在肥皂河上滑行，",
+        translation: "浴缸在滑溜的肥皂上滑动。",
         audioStart: 86.8,
         audioEnd: 92,
         grammarNote: "goes sliding 滑动；river of soap 肥皂组成的河流（夸张的说法）；soap 肥皂。",
@@ -177,7 +177,7 @@ export const booksData = [
       {
         id: "s18",
         text: "' Look out ! ' shouts Giraffe, her voice all a-quiver.",
-        translation: "“小心！”她大喊道。",
+        translation: "“小心！”长颈鹿大喊道，声音颤抖不已。",
         audioStart: 100,
         audioEnd: 104,
         grammarNote: "Look out 相当于 Be careful，小心、注意；shouts 大声喊。",
