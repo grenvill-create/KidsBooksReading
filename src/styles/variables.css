@@ -1,60 +1,60 @@
 /* src/styles/variables.css */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Outfit:wght@100..900&family=Noto+Sans+SC:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400..700&family=Nunito:wght@400..800&family=Noto+Sans+SC:wght@300..900&display=swap');
 
 :root {
-  /* Color Palette - Soft Playful Macaron Theme */
-  --bg-app: #fffefa;            /* Warm creamy white */
-  --bg-card: #ffffff;           /* Crisp clean white */
-  --bg-hover: #fff9eb;          /* Gentle warm yellow hover */
+  /* Color Palette - Premium Soft Macaron Theme */
+  --bg-app: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-hover: rgba(255, 249, 235, 0.9);
   
   /* Brand/Role Colors */
-  --color-pink: #ff8fb1;        /* Playful Bubble Pink */
-  --color-pink-hover: #ff769f;
-  --color-pink-shadow: #e06d8f;
+  --color-pink: #ff9cbd;
+  --color-pink-hover: #ff85aa;
+  --color-pink-shadow: #e67395;
   
-  --color-blue: #7dc4ff;        /* Sky Blue */
-  --color-blue-hover: #5ab3ff;
-  --color-blue-shadow: #599ede;
+  --color-blue: #8bcaff;
+  --color-blue-hover: #72beff;
+  --color-blue-shadow: #5a9ed6;
   
-  --color-mint: #8ce7bb;        /* Mint Green */
-  --color-mint-hover: #6cd9a3;
-  --color-mint-shadow: #63bc91;
+  --color-mint: #9beac5;
+  --color-mint-hover: #82e0b6;
+  --color-mint-shadow: #6ac49b;
   
-  --color-yellow: #ffe483;      /* Sunshine Yellow */
-  --color-yellow-hover: #ffd952;
-  --color-yellow-shadow: #dbba3f;
+  --color-yellow: #ffec99;
+  --color-yellow-hover: #ffe47a;
+  --color-yellow-shadow: #e6c85c;
 
-  --color-lilac: #d3b3ff;       /* Lilac Purple */
-  --color-lilac-hover: #be94ff;
-  --color-lilac-shadow: #a178e0;
+  --color-lilac: #dcc2ff;
+  --color-lilac-hover: #cdabff;
+  --color-lilac-shadow: #b38fe6;
 
-  --color-orange: #ffb77d;      /* Soft Mandarin Orange */
-  --color-orange-hover: #ff9e54;
-  --color-orange-shadow: #df813b;
+  --color-orange: #ffc494;
+  --color-orange-hover: #ffb175;
+  --color-orange-shadow: #e6985c;
   
   /* Neutral Typography Colors */
-  --text-dark: #3a3f47;         /* Soft dark for high legibility without harsh black */
-  --text-medium: #5c6470;
-  --text-light: #8e99a8;
+  --text-dark: #2d3748;
+  --text-medium: #718096;
+  --text-light: #a0aec0;
   --text-white: #ffffff;
   
   /* Borders and Radius */
-  --border-color: #f3f1eb;
-  --border-radius-bubble: 28px;
-  --border-radius-card: 24px;
-  --border-radius-button: 20px;
-  --border-radius-badge: 12px;
+  --border-color: rgba(255, 255, 255, 0.5);
+  --border-radius-bubble: 32px;
+  --border-radius-card: 28px;
+  --border-radius-button: 24px;
+  --border-radius-badge: 16px;
   
-  /* Advanced Tactile Box Shadows (3D Bubble Effect) */
-  --shadow-card: 0 10px 0 #f0ede4, 0 15px 30px rgba(139, 126, 102, 0.08);
-  --shadow-card-hover: 0 16px 0 #e5e0d4, 0 20px 45px rgba(139, 126, 102, 0.15);
+  /* Premium Glassmorphism & Soft Shadows */
+  --shadow-card: 0 8px 32px rgba(31, 38, 135, 0.07), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  --shadow-card-hover: 0 12px 40px rgba(31, 38, 135, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 1);
   
-  --shadow-bubble: 0 8px 0 rgba(0, 0, 0, 0.04), 0 15px 30px rgba(0, 0, 0, 0.03);
+  --shadow-bubble: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
   
   /* High Elasticity Bounce Transitions */
   --transition-bounce: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  --transition-smooth: all 0.2s ease-in-out;
+  --transition-smooth: all 0.25s ease-in-out;
   
   /* Typography Scale */
-  --font-kids: 'Fredoka', 'Outfit', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-kids: 'Quicksand', 'Nunito', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
 }

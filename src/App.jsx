@@ -39,6 +39,12 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* Ambient Floating Shapes for Micro-Animations (Option 2) */}
+      <div className="ambient-shape shape-1">⭐</div>
+      <div className="ambient-shape shape-2">☁️</div>
+      <div className="ambient-shape shape-3">🌙</div>
+      <div className="ambient-shape shape-4">✨</div>
+
       {/* Playful App Header */}
       <header className="app-header">
         <div className="logo" onClick={handleBackToLibrary}>
