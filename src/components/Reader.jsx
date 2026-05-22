@@ -8,6 +8,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedWord, setSelectedWord] = useState(null); // Selected word for bubble popup
   const [completedSentences, setCompletedSentences] = useState(new Set());
+  const [isAutoplayMode, setIsAutoplayMode] = useState(false);
   
   // Quiz State
   const [showQuiz, setShowQuiz] = useState(false);
@@ -124,14 +125,37 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     // Check if we hit the end of the current sentence segment
     if (current >= currentSentence.audioEnd) {
       pauseAudio();
-      // Auto move to Stage 2: Analyze
-      setCurrentStage('analyze');
+      
       // Mark current sentence as completed
       setCompletedSentences(prev => {
         const next = new Set(prev);
         next.add(currentSentenceIndex);
         return next;
       });
+
+      if (isAutoplayMode) {
+        // Autoplay progression
+        setTimeout(() => {
+          if (currentSentenceIndex < book.sentences.length - 1) {
+            goToSentence(currentSentenceIndex + 1);
+            // Delay slightly to let state updates propagate, then play next sentence
+            setTimeout(() => {
+              if (audioRef.current) {
+                audioRef.current.currentTime = book.sentences[currentSentenceIndex + 1].audioStart;
+                audioRef.current.play().then(() => setIsPlaying(true)).catch(console.error);
+              }
+            }, 100);
+          } else {
+            // Book finished in Autoplay mode: Skip quiz and show ending
+            setQuizFinished(true);
+            setShowQuiz(true);
+            triggerConfetti();
+          }
+        }, 1500); // 1.5 second soothing pause
+      } else {
+        // Auto move to Stage 2: Analyze
+        setCurrentStage('analyze');
+      }
     }
   };
 
@@ -304,7 +328,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           <span className="emoji-badge">{book.coverEmoji}</span>
           <span className="book-title-text">{book.title}</span>
         </div>
-        <div className="progress-pills">
+        <div className="progress-pills" style={{flex: 1, justifyContent: 'flex-end', display: 'flex', gap: '4px'}}>
           {book.sentences.map((_, index) => (
             <div 
               key={index} 
@@ -314,6 +338,17 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
             />
           ))}
         </div>
+        <button 
+          className={`btn-bubble btn-sm ml-16 ${isAutoplayMode ? 'btn-blue' : 'btn-secondary'}`}
+          onClick={() => {
+            const nextMode = !isAutoplayMode;
+            setIsAutoplayMode(nextMode);
+            if (nextMode && !isPlaying) playSegment();
+          }}
+          title="睡前连播伴读模式"
+        >
+          {isAutoplayMode ? '🌙 连播中' : '🌙 开启连播'}
+        </button>
       </div>
 
       {!showQuiz ? (
@@ -336,7 +371,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
               </p>
               
               {/* Show translation depending on stage */}
-              {(currentStage !== 'listen') && (
+              {(currentStage !== 'listen' || isAutoplayMode) && (
                 <p className="sentence-zh animate-slide-up">
                   {currentSentence.translation}
                 </p>
@@ -391,6 +426,16 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
 
           {/* Right panel: 4-Stage Guided Reading Widget */}
           <div className="guided-panel bubble-card">
+            {isAutoplayMode ? (
+              <div className="autoplay-relax-mode animate-fade-in" style={{textAlign: 'center', padding: '40px 10px'}}>
+                <div className="stage-emoji" style={{fontSize: '60px', animation: 'float 3s ease-in-out infinite'}}>🌙</div>
+                <h3 style={{color: 'var(--color-blue)', marginBottom: '10px'}}>睡前连播伴读中...</h3>
+                <p style={{color: 'var(--text-medium)', lineHeight: 1.6}}>
+                  闭上眼睛，安静聆听纯正的英文故事，伴随美好的想象进入梦乡吧！✨
+                </p>
+              </div>
+            ) : (
+            <>
             <h3 className="panel-title">⭐ 宝贝精读向导</h3>
             
             <div className="stages-indicator">
@@ -499,6 +544,8 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
             <div className="stage-bottom-nav">
               <span className="text-light-sm">已掌握 {completedSentences.size} / {book.sentences.length} 句</span>
             </div>
+            </>
+            )}
           </div>
         </div>
       ) : (
@@ -553,10 +600,11 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           ) : (
             /* Quiz finished / Book Completed Screen */
             <div className="book-completed-card animate-fade-in">
-              <div className="completion-trophy">🏆</div>
-              <h2>恭喜你，小勇士！</h2>
-              <p>你完成了绘本<b>《{book.title}》</b>的全程精读和趣味答题！</p>
+              <div className="completion-trophy">{isAutoplayMode ? '🌙' : '🏆'}</div>
+              <h2>{isAutoplayMode ? '晚安，好梦！' : '恭喜你，小勇士！'}</h2>
+              <p>{isAutoplayMode ? <span>你已经听完了绘本<b>《{book.title}》</b>啦，快去睡觉吧！</span> : <span>你完成了绘本<b>《{book.title}》</b>的全程精读和趣味答题！</span>}</p>
               
+              {!isAutoplayMode && (
               <div className="reward-summary bubble-card" style={{ background: '#fff9eb', margin: '30px auto', maxWidth: '400px' }}>
                 <h3>🎁 学习大丰收</h3>
                 <div className="reward-item">
@@ -568,6 +616,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
                   <span>解锁荣誉: 长颈鹿浴缸赛跑冠军 🦒🛁</span>
                 </div>
               </div>
+              )}
 
               <div className="completed-actions">
                 <button className="btn-bubble btn-pink" onClick={onBackToLibrary}>
