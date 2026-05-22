@@ -65,6 +65,26 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     }
   };
 
+  // 动态容错解析图片路径
+  const getImageSrc = () => {
+    const rawPath = currentSentence.imageUrl;
+    if (!rawPath) return null;
+    
+    const cleanPath = rawPath.startsWith('/') ? rawPath.substring(1) : rawPath;
+    
+    // 自动检测当前部署的二级路径（比如仓库名 /KidsEnglish/ 或 /KidsBooksReading/）
+    const pathname = window.location.pathname;
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (!isLocalhost && pathSegments.length > 0) {
+      const repoName = pathSegments[0];
+      return `${window.location.origin}/${repoName}/${cleanPath}`;
+    }
+    
+    return '/' + cleanPath;
+  };
+
   // Helper to trigger voice pronunciation of individual words using Web Speech API
   const speakWord = (wordText) => {
     if ('speechSynthesis' in window) {
@@ -355,14 +375,25 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
         <div className="reader-layout">
           {/* Left panel: Book Illustration & Sentence Container */}
           <div className="book-main-panel bubble-card">
-            <div className="illustration-placeholder">
-              <span className="illustration-emoji">
-                {currentSentence.words && currentSentence.words.length > 0 && book.words[currentSentence.words[0]]
-                  ? book.words[currentSentence.words[0]].emoji
-                  : book.coverEmoji
-                }
-              </span>
-              <div className="illustration-caption">🦒 Giraffe's Bathtub World 🛁</div>
+            <div className="illustration-placeholder" style={{ padding: getImageSrc() ? '0' : '20px' }}>
+              {getImageSrc() ? (
+                <img 
+                  src={getImageSrc()} 
+                  alt="Story Illustration" 
+                  className="sentence-illustration animate-fade-in" 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '20px' }} 
+                />
+              ) : (
+                <>
+                  <span className="illustration-emoji">
+                    {currentSentence.words && currentSentence.words.length > 0 && book.words[currentSentence.words[0]]
+                      ? book.words[currentSentence.words[0]].emoji
+                      : book.coverEmoji
+                    }
+                  </span>
+                  <div className="illustration-caption">🦒 Giraffe's Bathtub World 🛁</div>
+                </>
+              )}
             </div>
 
             <div className="sentence-display-box">
