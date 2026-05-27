@@ -18,12 +18,6 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
   const [silenceThreshold, setSilenceThreshold] = useState(0.015); // Amplitude threshold (0 to 1)
   const [minSilenceDuration, setMinSilenceDuration] = useState(0.5); // Minimum seconds of silence
 
-  // Manual Timing Import States
-  const [importText, setImportText] = useState('');
-  const [importPreview, setImportPreview] = useState([]); // [{start, end}]
-  const [importError, setImportError] = useState('');
-  const [importApplied, setImportApplied] = useState(false);
-
   const audioRef = useRef(null);
   const canvasRef = useRef(null);
   const animationFrameRef = useRef(null);
@@ -433,85 +427,6 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     });
   };
 
-  // --- Manual Timing Import Logic ---
-  const parseImportText = (raw) => {
-    setImportError('');
-    setImportPreview([]);
-    setImportApplied(false);
-    const text = raw.trim();
-    if (!text) return;
-
-    // Try JSON array format: [{"start":9,"end":11.5}, ...] or [[9,11.5], ...]
-    if (text.startsWith('[')) {
-      try {
-        const parsed = JSON.parse(text);
-        if (!Array.isArray(parsed)) throw new Error('顶层必须是数组');
-        const result = parsed.map((item, i) => {
-          if (Array.isArray(item)) {
-            if (item.length < 2) throw new Error(`第 ${i+1} 项数组长度不足 2`);
-            const s = parseFloat(item[0]), e = parseFloat(item[1]);
-            if (isNaN(s) || isNaN(e)) throw new Error(`第 ${i+1} 项包含非数字`);
-            return { start: s, end: e };
-          } else if (typeof item === 'object' && item !== null) {
-            const s = parseFloat(item.start ?? item.audioStart ?? item.from ?? item.begin);
-            const e = parseFloat(item.end ?? item.audioEnd ?? item.to ?? item.stop);
-            if (isNaN(s) || isNaN(e)) throw new Error(`第 ${i+1} 项缺少 start/end 字段`);
-            return { start: s, end: e };
-          }
-          throw new Error(`第 ${i+1} 项格式不识别`);
-        });
-        setImportPreview(result);
-        return;
-      } catch (err) {
-        setImportError('JSON 解析失败：' + err.message);
-        return;
-      }
-    }
-
-    // Try plain text format: one "start,end" or "start end" or "start\tend" per line
-    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-    const result = [];
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      // Skip header lines
-      if (/^(#|start|id|句子|序号)/i.test(line)) continue;
-      const parts = line.split(/[,\t\s]+/).filter(Boolean);
-      // Support "idx start end" (3 cols) or "start end" (2 cols)
-      let s, e;
-      if (parts.length >= 3) {
-        s = parseFloat(parts[1]); e = parseFloat(parts[2]);
-      } else if (parts.length === 2) {
-        s = parseFloat(parts[0]); e = parseFloat(parts[1]);
-      } else {
-        setImportError(`第 ${i+1} 行格式无法识别："${line}"`);
-        return;
-      }
-      if (isNaN(s) || isNaN(e)) {
-        setImportError(`第 ${i+1} 行包含非数字："${line}"`);
-        return;
-      }
-      result.push({ start: s, end: e });
-    }
-    if (result.length === 0) {
-      setImportError('未能解析到任何有效时间点，请检查格式。');
-      return;
-    }
-    setImportPreview(result);
-  };
-
-  const applyImportedTimings = () => {
-    if (importPreview.length === 0) return;
-    const updated = sentences.map((s, idx) => {
-      if (importPreview[idx]) {
-        return { ...s, audioStart: importPreview[idx].start, audioEnd: importPreview[idx].end };
-      }
-      return s;
-    });
-    setSentences(updated);
-    setImportApplied(true);
-    setTimeout(() => setImportApplied(false), 2500);
-  };
-
   const copyJSCode = () => {
     // Format JSON array neatly for booksData.js
     const formatted = sentences.map((s, idx) => {
@@ -637,66 +552,6 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
                 <canvas ref={canvasRef} width="650" height="150" className="waveform-canvas" />
                 {detectedSlices.length > 0 && (
                   <p className="success-badge">✅ 智能识别出了 {detectedSlices.length} 个英文断句切片！</p>
-                )}
-              </div>
-
-              {/* ── Manual Timing Import Panel ── */}
-              <div className="manual-import-panel bubble-card">
-                <h4>📋 手工导入校对打点时间</h4>
-                <p className="import-desc">
-                  支持粘贴以下任意格式：<br />
-                  <b>① JSON 数组</b>：<code>{`[{"start":9,"end":11.5}, ...]`}</code><br />
-                  <b>② 二维数组</b>：<code>{`[[9,11.5],[12,19], ...]`}</code><br />
-                  <b>③ 逐行文本</b>：每行 <code>起始秒,结束秒</code>（如 <code>9,11.5</code>），或加序号 <code>1 9 11.5</code>
-                </p>
-                <textarea
-                  className="import-textarea"
-                  placeholder={`粘贴时间戳数据，例如：\n[{"start":9,"end":11.5},{"start":12,"end":19}]\n\n或逐行格式：\n9,11.5\n12,19\n21,23.7`}
-                  value={importText}
-                  rows={6}
-                  onChange={(e) => {
-                    setImportText(e.target.value);
-                    parseImportText(e.target.value);
-                  }}
-                />
-                {importError && (
-                  <p className="import-error">⚠️ {importError}</p>
-                )}
-                {importPreview.length > 0 && (
-                  <div className="import-preview-box">
-                    <div className="import-preview-header">
-                      <span>✅ 已解析 <b>{importPreview.length}</b> 条时间点（共 {sentences.length} 句）</span>
-                      {importPreview.length !== sentences.length && (
-                        <span className="import-warn">⚠️ 数量与句子数不一致，多余项将被忽略</span>
-                      )}
-                    </div>
-                    <div className="import-preview-table-wrap">
-                      <table className="import-preview-table">
-                        <thead>
-                          <tr><th>#</th><th>起始 (s)</th><th>结束 (s)</th><th>当前句子</th></tr>
-                        </thead>
-                        <tbody>
-                          {importPreview.slice(0, 8).map((t, i) => (
-                            <tr key={i} className={i >= sentences.length ? 'row-overflow' : ''}>
-                              <td>{i + 1}</td>
-                              <td>{t.start}</td>
-                              <td>{t.end}</td>
-                              <td className="preview-sentence-text">{sentences[i]?.text?.slice(0, 30) ?? '—'}{sentences[i]?.text?.length > 30 ? '…' : ''}</td>
-                            </tr>
-                          ))}
-                          {importPreview.length > 8 && (
-                            <tr><td colSpan={4} style={{textAlign:'center',color:'var(--text-light)',fontSize:12}}>… 还有 {importPreview.length - 8} 条</td></tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                    <button
-                      className={`btn-bubble btn-blue mt-12 w-full ${importApplied ? 'btn-success-flash' : ''}`}
-                      onClick={applyImportedTimings}
-                    >
-                      {importApplied ? '✅ 已成功应用到右侧句子列表！' : `🖊️ 应用到全部 ${Math.min(importPreview.length, sentences.length)} 个句子`}
-                    </button>
-                  </div>
                 )}
               </div>
 
@@ -1300,118 +1155,7 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
           color: var(--text-medium);
           line-height: 1.5;
         }
-
-        /* Manual Import Panel */
-        .manual-import-panel {
-          margin-top: 24px;
-          background: #f8f6ff;
-          border: 2px solid #d8b4fe;
-          text-align: left;
-        }
-        .manual-import-panel h4 {
-          font-size: 16px;
-          font-weight: 800;
-          color: #7c3aed;
-          margin-bottom: 8px;
-        }
-        .import-desc {
-          font-size: 12.5px;
-          color: var(--text-medium);
-          line-height: 1.7;
-          margin-bottom: 12px;
-        }
-        .import-desc code {
-          background: #ede9fe;
-          color: #6d28d9;
-          border-radius: 4px;
-          padding: 1px 5px;
-          font-size: 11.5px;
-        }
-        .import-textarea {
-          width: 100%;
-          box-sizing: border-box;
-          border: 1.5px solid #c4b5fd;
-          border-radius: 10px;
-          padding: 10px 12px;
-          font-size: 13px;
-          font-family: 'Courier New', monospace;
-          resize: vertical;
-          background: white;
-          color: var(--text-dark);
-          transition: border-color 0.2s;
-          outline: none;
-        }
-        .import-textarea:focus {
-          border-color: #7c3aed;
-          box-shadow: 0 0 0 3px rgba(124,58,237,0.08);
-        }
-        .import-error {
-          font-size: 12.5px;
-          color: #dc2626;
-          background: #fef2f2;
-          border: 1px solid #fecaca;
-          border-radius: 8px;
-          padding: 6px 10px;
-          margin-top: 8px;
-        }
-        .import-preview-box {
-          margin-top: 12px;
-        }
-        .import-preview-header {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          flex-wrap: wrap;
-          font-size: 13px;
-          font-weight: 700;
-          color: #059669;
-          margin-bottom: 8px;
-        }
-        .import-warn {
-          font-size: 12px;
-          color: #d97706;
-          font-weight: 600;
-        }
-        .import-preview-table-wrap {
-          overflow-x: auto;
-          border-radius: 10px;
-          border: 1px solid #ddd6fe;
-        }
-        .import-preview-table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 12.5px;
-        }
-        .import-preview-table th {
-          background: #ede9fe;
-          color: #6d28d9;
-          font-weight: 800;
-          padding: 6px 10px;
-          text-align: left;
-        }
-        .import-preview-table td {
-          padding: 5px 10px;
-          border-top: 1px solid #ede9fe;
-          color: var(--text-dark);
-        }
-        .import-preview-table tr.row-overflow td {
-          color: #9ca3af;
-          background: #fafafa;
-        }
-        .preview-sentence-text {
-          max-width: 180px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          font-size: 12px;
-          color: var(--text-medium);
-        }
-        .mt-12 { margin-top: 12px; }
-        .btn-success-flash {
-          background: #059669 !important;
-          border-color: #059669 !important;
-        }
-
+        
         .animate-spin {
           animation: spin 1s linear infinite;
         }
