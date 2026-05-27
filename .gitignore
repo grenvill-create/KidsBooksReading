@@ -23,3 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 
+# Vercel
+.vercel
+
+# Scratch and local raw assets
+/book sound
+/scratch
+/scratch_*
+/inspect_audio.py
+/align_helper.py

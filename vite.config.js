@@ -4,9 +4,10 @@ import fs from 'fs'
 import path from 'path'
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: '/KidsBooksReading/',
-  plugins: [
+export default defineConfig(({ command }) => {
+  return {
+    base: '/',
+    plugins: [
     react(),
     {
       name: 'save-books-api',
@@ -73,5 +74,6 @@ export default defineConfig({
       }
     }
   ],
+  };
 })
 

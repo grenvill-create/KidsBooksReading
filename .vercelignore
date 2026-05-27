@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-ssr
+.vercel
+.git
+.github
+
+# Exclude large local directories and Python files
+book sound
+scratch
+scratch_*
+inspect_audio.py
+align_helper.py
+*.py
