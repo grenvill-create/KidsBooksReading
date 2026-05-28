@@ -13,11 +13,8 @@ function App() {
     const saved = localStorage.getItem('kids_english_stars');
     return saved ? parseInt(saved, 10) : 0;
   });
-  const [booksList, setBooksList] = useState([]);
-
-  // Load books and merge local storage customizations
-  const loadBooksData = () => {
-    const merged = booksData.map(book => {
+  const [booksList, setBooksList] = useState(() => {
+    return booksData.map(book => {
       const savedData = localStorage.getItem(`kids_books_custom_${book.id}`);
       if (savedData) {
         try {
@@ -34,20 +31,7 @@ function App() {
       }
       return book;
     });
-    setBooksList(merged);
-    
-    // Also sync the currently selected book if there is one
-    if (selectedBook) {
-      const currentUpdated = merged.find(b => b.id === selectedBook.id);
-      if (currentUpdated) {
-        setSelectedBook(currentUpdated);
-      }
-    }
-  };
-
-  useEffect(() => {
-    loadBooksData();
-  }, []);
+  });
 
   useEffect(() => {
     localStorage.setItem('kids_english_stars', starsCount.toString());
