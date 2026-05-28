@@ -1,8 +1,9 @@
 /* src/components/ParentDashboard.jsx */
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, BarChart3, Settings, Play, Pause, Save, Copy, FileCode, Check, RefreshCw, Volume2, Sparkles } from 'lucide-react';
+import { ChevronLeft, BarChart3, Settings, Play, Pause, Save, Copy, FileCode, Check, RefreshCw, Volume2, Sparkles, Download, Upload, RotateCcw, FileJson } from 'lucide-react';
+import { booksData } from '../data/booksData';
 
-export default function ParentDashboard({ book, onBackToLibrary }) {
+export default function ParentDashboard({ book, onBackToLibrary, onUpdateBookSentences, onResetBookSentences }) {
   const [activeTab, setActiveTab] = useState('aligner'); // 'aligner' | 'stats' | 'help'
   const [sentences, setSentences] = useState(book.sentences);
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(0);
@@ -99,10 +100,16 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     }
   };
 
-  // Save the edited timestamps to src/data/booksData.js via backend API
+  // Save the edited timestamps to src/data/booksData.js via backend API & LocalStorage
   const saveToLocalFile = async () => {
     setIsSaving(true);
     setSaveSuccess(false);
+
+    // Save to browser cache instantly
+    if (onUpdateBookSentences) {
+      onUpdateBookSentences(book.id, sentences);
+    }
+
     try {
       const response = await fetch('/api/save-books', {
         method: 'POST',
@@ -119,11 +126,16 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 2000);
       } else {
-        alert("保存失败: " + resData.error);
+        // If online or API fails, still show success because browser cache saved it!
+        console.warn("Backend save skipped or failed (expected in static environment):", resData.error);
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 2000);
       }
     } catch (err) {
-      console.error("Save error:", err);
-      alert("保存失败，请检查后端 API 服务是否正常！");
+      console.warn("Backend API save error (expected in static environment):", err);
+      // Still show success since it's saved in LocalStorage!
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2000);
     } finally {
       setIsSaving(false);
     }
@@ -157,6 +169,89 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
     const updated = [...sentences];
     updated[index] = { ...updated[index], translation: value };
     setSentences(updated);
+  };
+
+  // 导出 JSON 配置 (选项 B - 包含全量属性)
+  const handleExportJSON = () => {
+    try {
+      const dataStr = JSON.stringify(sentences, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${book.id}_sentences_config.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Export JSON failed:", err);
+      alert("导出失败：" + err.message);
+    }
+  };
+
+  // 导入 JSON 配置 (选项 B - 覆盖卡点与内容)
+  const handleImportJSON = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const parsed = JSON.parse(event.target.result);
+        
+        // 验证 JSON 是否为数组且具备必要元素
+        if (!Array.isArray(parsed)) {
+          throw new Error("导入的数据格式不正确，必须是一个句子数组！");
+        }
+        
+        if (parsed.length === 0) {
+          throw new Error("句子数组不能为空！");
+        }
+
+        const isValid = parsed.every(item => {
+          return item && typeof item === 'object' && 'id' in item && 'text' in item && 'audioStart' in item;
+        });
+
+        if (!isValid) {
+          throw new Error("句子配置缺少关键字段 (id, text, audioStart 等)，请确保是合法的绘本全量配置文件。");
+        }
+
+        // 更新本地状态
+        setSentences(parsed);
+        setSelectedSentenceIndex(0);
+        
+        // 触发上级回调，写入 LocalStorage 并在 App 中即时生效
+        if (onUpdateBookSentences) {
+          onUpdateBookSentences(book.id, parsed);
+        }
+
+        alert("🎉 成功导入卡点与全量内容！已自动应用并存入浏览器缓存。");
+      } catch (err) {
+        console.error("Import JSON error:", err);
+        alert(`❌ 导入失败: ${err.message}`);
+      }
+    };
+    reader.readAsText(file);
+    // 重置 input 以便能重复上传同名文件
+    e.target.value = '';
+  };
+
+  // 恢复出厂默认配置
+  const handleResetToDefault = () => {
+    if (window.confirm("确定要恢复至出厂默认的时间卡点与文本配置吗？这将会清空您在本浏览器中的所有自定义修改。")) {
+      if (onResetBookSentences) {
+        onResetBookSentences(book.id);
+      }
+      const originalBook = booksData.find(b => b.id === book.id);
+      if (originalBook) {
+        setSentences(originalBook.sentences);
+        setSelectedSentenceIndex(0);
+        alert("✨ 已成功恢复该绘本的默认卡点与配置！");
+      } else {
+        alert("未找到该绘本的静态代码配置。");
+      }
+    }
   };
 
   // Play current segment
@@ -557,12 +652,12 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
 
               {/* JS Exporter / Direct Save */}
               <div className="js-exporter bubble-card" style={{ background: '#f8fafc', borderLeft: '6px solid var(--color-mint)', marginTop: 24 }}>
-                <div className="exporter-header" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <h4>💾 校对对齐结果保存与导出</h4>
-                  <div style={{ display: 'flex', gap: 8 }}>
+                <div className="exporter-header" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px dashed var(--border-color)', paddingBottom: 12, marginBottom: 12 }}>
+                  <h4 style={{ margin: 0, fontSize: 15 }}>💾 校对打点结果保存与导出</h4>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     <button className="btn-bubble btn-mint btn-sm" onClick={saveToLocalFile} disabled={isSaving}>
                       {isSaving ? <RefreshCw className="animate-spin" size={16} /> : (saveSuccess ? <Check size={16} /> : <Save size={16} />)}
-                      {isSaving ? "正在保存..." : (saveSuccess ? "保存成功！" : "保存修改到文件")}
+                      {isSaving ? "正在保存..." : (saveSuccess ? "已成功保存！" : "保存修改并生效")}
                     </button>
                     <button className="btn-bubble btn-secondary btn-sm" onClick={copyJSCode}>
                       {isCopied ? <Check size={16} /> : <Copy size={16} />}
@@ -570,9 +665,33 @@ export default function ParentDashboard({ book, onBackToLibrary }) {
                     </button>
                   </div>
                 </div>
-                <p style={{ fontSize: 13, color: 'var(--text-medium)', marginBottom: 0, marginTop: 8 }}>
-                  校对打点时间微调后，点击<b>“保存修改到文件”</b>可直接<b>写入并永久保存</b>到项目的 <code>src/data/booksData.js</code> 配置文件中！您也可以点击“拷贝配置代码”进行文本备份。
-                </p>
+                
+                {/* JSON 导入导出与重置模块 */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                    <button className="btn-bubble btn-pink btn-sm" onClick={handleExportJSON} title="导出全量句子与时间卡点配置为 JSON 文件 (选项 B)">
+                      <Download size={14} /> 导出 JSON 备份
+                    </button>
+                    
+                    <label className="btn-bubble btn-yellow btn-sm" style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 4, margin: 0 }} title="从 JSON 文件导入全量句子与卡点配置 (选项 B)">
+                      <Upload size={14} /> 导入 JSON 备份
+                      <input 
+                        type="file" 
+                        accept=".json" 
+                        onChange={handleImportJSON} 
+                        style={{ display: 'none' }} 
+                      />
+                    </label>
+
+                    <button className="btn-bubble btn-secondary btn-sm" onClick={handleResetToDefault} style={{ color: 'var(--color-orange-hover)', borderColor: 'rgba(235, 94, 40, 0.2)' }} title="清空浏览器缓存，还原出厂代码配置">
+                      <RotateCcw size={14} /> 恢复默认配置
+                    </button>
+                  </div>
+                  
+                  <p style={{ fontSize: 12.5, color: 'var(--text-medium)', marginBottom: 0, lineHeight: 1.5 }}>
+                    💡 <b>小知识</b>：修改后点击<b>“保存修改并生效”</b>或<b>“导入 JSON 备份”</b>，新卡点和文字会<b>立即应用于伴读页面</b>（存储在浏览器缓存中，即使刷新也不会丢失）。在本地开发环境下，保存修改还会同步写入本地 <code>booksData.js</code> 配置文件中。
+                  </p>
+                </div>
               </div>
             </div>
 

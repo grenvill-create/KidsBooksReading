@@ -3,7 +3,7 @@ import React from 'react';
 import { BookOpen, Settings, Star, Award, Sparkles } from 'lucide-react';
 import { booksData } from '../data/booksData';
 
-export default function Library({ onSelectBook, onOpenParentDashboard, starsCount }) {
+export default function Library({ onSelectBook, onOpenParentDashboard, starsCount, books = booksData }) {
   return (
     <div className="library-container">
       <div className="library-hero bubble-card" style={{ background: 'linear-gradient(135deg, #fffcf0 0%, #fff6d6 100%)', bordercolor: 'var(--color-yellow)' }}>
@@ -31,7 +31,7 @@ export default function Library({ onSelectBook, onOpenParentDashboard, starsCoun
 
       <h2 className="section-title">📚 绘本小书架</h2>
       <div className="books-grid">
-        {booksData.map((book) => (
+        {books.map((book) => (
           <div key={book.id} className="book-card bubble-card" style={{ '--card-color': book.coverColor }}>
             <div className="book-badge" style={{ backgroundColor: 'var(--color-blue)', color: '#fff' }}>
               难度 {book.difficulty}

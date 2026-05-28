@@ -13,6 +13,41 @@ function App() {
     const saved = localStorage.getItem('kids_english_stars');
     return saved ? parseInt(saved, 10) : 0;
   });
+  const [booksList, setBooksList] = useState([]);
+
+  // Load books and merge local storage customizations
+  const loadBooksData = () => {
+    const merged = booksData.map(book => {
+      const savedData = localStorage.getItem(`kids_books_custom_${book.id}`);
+      if (savedData) {
+        try {
+          const customSentences = JSON.parse(savedData);
+          if (Array.isArray(customSentences) && customSentences.length > 0) {
+            return {
+              ...book,
+              sentences: customSentences
+            };
+          }
+        } catch (e) {
+          console.error("Error parsing custom sentences for " + book.id, e);
+        }
+      }
+      return book;
+    });
+    setBooksList(merged);
+    
+    // Also sync the currently selected book if there is one
+    if (selectedBook) {
+      const currentUpdated = merged.find(b => b.id === selectedBook.id);
+      if (currentUpdated) {
+        setSelectedBook(currentUpdated);
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadBooksData();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('kids_english_stars', starsCount.toString());
@@ -23,12 +58,14 @@ function App() {
   };
 
   const handleSelectBook = (book) => {
-    setSelectedBook(book);
+    const latestBook = booksList.find(b => b.id === book.id) || book;
+    setSelectedBook(latestBook);
     setCurrentScreen('reader');
   };
 
   const handleOpenParentDashboard = () => {
-    setSelectedBook(booksData[0]); // default to first book
+    const latestBook = booksList.find(b => b.id === booksData[0].id) || booksData[0];
+    setSelectedBook(latestBook);
     setCurrentScreen('parent-tools');
   };
 
@@ -73,6 +110,7 @@ function App() {
             onSelectBook={handleSelectBook} 
             onOpenParentDashboard={handleOpenParentDashboard}
             starsCount={starsCount}
+            books={booksList}
           />
         )}
 
@@ -88,6 +126,24 @@ function App() {
           <ParentDashboard 
             book={selectedBook}
             onBackToLibrary={handleBackToLibrary}
+            onUpdateBookSentences={(bookId, updatedSentences) => {
+              // Save to LocalStorage
+              localStorage.setItem(`kids_books_custom_${bookId}`, JSON.stringify(updatedSentences));
+              // Update booksList state in App
+              setBooksList(prev => prev.map(b => b.id === bookId ? { ...b, sentences: updatedSentences } : b));
+              // Update selectedBook state
+              setSelectedBook(prev => prev && prev.id === bookId ? { ...prev, sentences: updatedSentences } : prev);
+            }}
+            onResetBookSentences={(bookId) => {
+              // Remove from LocalStorage
+              localStorage.removeItem(`kids_books_custom_${bookId}`);
+              // Restore default from static booksData
+              const originalBook = booksData.find(b => b.id === bookId);
+              if (originalBook) {
+                setBooksList(prev => prev.map(b => b.id === bookId ? { ...originalBook } : b));
+                setSelectedBook(originalBook);
+              }
+            }}
           />
         )}
       </main>
