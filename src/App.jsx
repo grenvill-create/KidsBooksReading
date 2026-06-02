@@ -20,6 +20,24 @@ function App() {
         try {
           const customSentences = JSON.parse(savedData);
           if (Array.isArray(customSentences) && customSentences.length > 0) {
+            // 自动迁移逻辑：如果缓存里的句子数量比最新代码里的少（说明有拆分更新）
+            if (customSentences.length < book.sentences.length) {
+              console.log(`Migrating cache for book ${book.id}...`);
+              // 保留前 21 句的缓存（也就是用户自己调好的时间）
+              const preservedSentences = customSentences.slice(0, 21);
+              // 加上第 22 句及以后的最新代码拆分结果
+              const newSentences = book.sentences.slice(21);
+              const mergedSentences = [...preservedSentences, ...newSentences];
+              
+              // 用合并后的新数据静默更新用户的本地缓存，不丢失他们之前的进度！
+              localStorage.setItem(`kids_books_custom_${book.id}`, JSON.stringify(mergedSentences));
+              
+              return {
+                ...book,
+                sentences: mergedSentences
+              };
+            }
+
             return {
               ...book,
               sentences: customSentences
