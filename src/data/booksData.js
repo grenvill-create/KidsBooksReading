@@ -269,7 +269,7 @@ export const booksData = [
         text: "Spider is spinning her sparkling strings, swaying from branches.",
         translation: "蜘蛛在树枝间摇摆，吐出闪闪发光的蛛丝。",
         audioStart: 10,
-        audioEnd: 15.4,
+        audioEnd: 15.5,
         grammarNote: "spinning 吐丝；sparkling strings 闪闪发光的丝线；swaying 摇摆。",
         words: ["spider"]
       },

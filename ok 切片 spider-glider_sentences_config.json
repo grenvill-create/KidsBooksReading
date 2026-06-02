@@ -1,0 +1,228 @@
+[
+  {
+    "id": "s1",
+    "text": "Spider is spinning her sparkling strings, swaying from branches.",
+    "translation": "蜘蛛在树枝间摇摆，吐出闪闪发光的蛛丝。",
+    "audioStart": 10,
+    "audioEnd": 15.5,
+    "grammarNote": "spinning 吐丝；sparkling strings 闪闪发光的丝线；swaying 摇摆。",
+    "words": [
+      "spider"
+    ]
+  },
+  {
+    "id": "s2",
+    "text": "She sings as she swings:",
+    "translation": "她一边荡秋千一边唱：",
+    "audioStart": 15.6,
+    "audioEnd": 19,
+    "grammarNote": "sings as she swings 一边荡一边唱。",
+    "words": []
+  },
+  {
+    "id": "s3",
+    "text": "\"I wish to fly, so I'm making some wings.\"",
+    "translation": "“我想飞翔，所以我在做一对翅膀。”",
+    "audioStart": 19,
+    "audioEnd": 23,
+    "grammarNote": "wish to fly 希望飞翔；making some wings 制作翅膀。",
+    "words": []
+  },
+  {
+    "id": "s4",
+    "text": "She creeps up a rock and then leaps into space.",
+    "translation": "她爬上一块岩石，然后向半空纵身一跃。",
+    "audioStart": 26,
+    "audioEnd": 31,
+    "grammarNote": "creeps up 爬上；leaps into 跳入；space 半空中。",
+    "words": []
+  },
+  {
+    "id": "s5",
+    "text": "What a shock! With a splat, she lands flat on her face.",
+    "translation": "哎呀！啪嗒一声，她脸朝下重重地摔在了地上。",
+    "audioStart": 31,
+    "audioEnd": 36.5,
+    "grammarNote": "What a shock 真令人震惊/哎呀；with a splat 啪嗒一声；lands flat on her face 脸着地。",
+    "words": []
+  },
+  {
+    "id": "s6",
+    "text": "\"I'll try it again. I will fly!\" declares Spider.",
+    "translation": "“我再试一次。我一定要飞！”蜘蛛大声说。",
+    "audioStart": 38.8,
+    "audioEnd": 45,
+    "grammarNote": "try it again 再试一次；will fly 一定会飞；declares 宣称/大声说。",
+    "words": [
+      "spider"
+    ]
+  },
+  {
+    "id": "s7",
+    "text": "She falls even harder... but Beetle has spied her.",
+    "translation": "她摔得更惨了……但甲虫看见了她。",
+    "audioStart": 45,
+    "audioEnd": 50,
+    "grammarNote": "falls even harder 摔得更重；has spied her 发现了她（spy的过去分词）。",
+    "words": []
+  },
+  {
+    "id": "s8",
+    "text": "\"I can't fly either,\" sighs Beetle beside her.",
+    "translation": "“我也不会飞，”她身旁的甲虫叹了口气。",
+    "audioStart": 50,
+    "audioEnd": 54.5,
+    "grammarNote": "can't fly either 也不（会飞）；sighs 叹气；beside her 在她旁边。",
+    "words": []
+  },
+  {
+    "id": "s9",
+    "text": "\"Though I tried and I tried. So I built my own glider.\"",
+    "translation": "“尽管我试了又试。所以我造了我自己的滑翔机。”",
+    "audioStart": 54.6,
+    "audioEnd": 61,
+    "grammarNote": "Though 尽管；tried and tried 试了又试；built my own glider 建造了我自己的滑翔机。",
+    "words": [
+      "glider"
+    ]
+  },
+  {
+    "id": "s10",
+    "text": "The glider is gleaming and ready to ride.",
+    "translation": "滑翔机闪闪发光，准备好起飞了。",
+    "audioStart": 64,
+    "audioEnd": 67.4,
+    "grammarNote": "gleaming 闪闪发光；ready to ride 准备好起飞。",
+    "words": [
+      "glider"
+    ]
+  },
+  {
+    "id": "s11",
+    "text": "Beetle and Spider both clamber inside.",
+    "translation": "甲虫和蜘蛛都爬了进去。",
+    "audioStart": 67.8,
+    "audioEnd": 71.2,
+    "grammarNote": "both clamber inside 都笨拙地爬进去。",
+    "words": [
+      "spider"
+    ]
+  },
+  {
+    "id": "s12",
+    "text": "Dragonfly tows them up high in the sky.",
+    "translation": "蜻蜓拉着他们飞上了高高的天空。",
+    "audioStart": 74,
+    "audioEnd": 78.3,
+    "grammarNote": "Dragonfly 蜻蜓；tows them 拖着他们；up high in the sky 高空中。",
+    "words": []
+  },
+  {
+    "id": "s13",
+    "text": "Then Beetle lets go: \"We are flying! Bye bye!\"",
+    "translation": "然后甲虫松开了绳子：“我们在飞了！再见！”",
+    "audioStart": 79,
+    "audioEnd": 84,
+    "grammarNote": "lets go 松手；flying 飞行。",
+    "words": []
+  },
+  {
+    "id": "s14",
+    "text": "They glide in wide circles and ride on the breeze.",
+    "translation": "他们在空中盘旋滑行，乘着微风飞行。",
+    "audioStart": 86.5,
+    "audioEnd": 92,
+    "grammarNote": "glide 滑行；wide circles 盘旋；ride on the breeze 乘风。",
+    "words": []
+  },
+  {
+    "id": "s15",
+    "text": "The wind blows below them. \"Look, they're like toy trees.\"",
+    "translation": "风在他们下方吹过。“看，它们就像玩具树一样。”",
+    "audioStart": 92,
+    "audioEnd": 97.9,
+    "grammarNote": "wind blows 风吹过；toy trees 玩具树。",
+    "words": []
+  },
+  {
+    "id": "s16",
+    "text": "The wind starts to huff and to puff.",
+    "translation": "风开始呼呼地吹起来。",
+    "audioStart": 101,
+    "audioEnd": 103.4,
+    "grammarNote": "huff and puff 呼哧呼哧地吹气（形容风很大）。",
+    "words": []
+  },
+  {
+    "id": "s17",
+    "text": "Thunder booms. With a crack and a spark, a bright lightning strike looms.",
+    "translation": "雷声轰鸣。伴随着爆裂声和火花，一道明亮的闪电赫然出现。",
+    "audioStart": 103.5,
+    "audioEnd": 110,
+    "grammarNote": "Thunder booms 雷声轰鸣；crack and spark 爆裂声和火花；lightning strike 闪电；looms 赫然出现。",
+    "words": []
+  },
+  {
+    "id": "s18",
+    "text": "The glider is tossed up and down and around.",
+    "translation": "滑翔机被颠簸得上下翻飞，团团转。",
+    "audioStart": 113,
+    "audioEnd": 117,
+    "grammarNote": "tossed up and down 上下颠簸；around 团团转。",
+    "words": []
+  },
+  {
+    "id": "s19",
+    "text": "\"All is lost!\" Beetle splutters. \"We'll crash to the ground!\"",
+    "translation": "“全完了！”甲虫结结巴巴地说。“我们要坠毁到地上了！”",
+    "audioStart": 117,
+    "audioEnd": 122.5,
+    "grammarNote": "All is lost 全完了；splutters 结结巴巴地说；crash 坠毁。",
+    "words": []
+  },
+  {
+    "id": "s20",
+    "text": "But Spider starts spinning. Her legs are a blur.",
+    "translation": "但是蜘蛛开始吐丝。她的腿快得成了一团模糊的影子。",
+    "audioStart": 124.8,
+    "audioEnd": 129,
+    "grammarNote": "spinning 吐丝；a blur 模糊不清（形容动作极快）。",
+    "words": []
+  },
+  {
+    "id": "s21",
+    "text": "\"I'll save us,\" she says, with a whizz and a whir.",
+    "translation": "“我会救我们的，”她一边发出嗖嗖和嗡嗡声一边说。",
+    "audioStart": 129,
+    "audioEnd": 135,
+    "grammarNote": "save us 救我们；whizz and whir 嗖嗖声和嗡嗡声。",
+    "words": []
+  },
+  {
+    "id": "s22",
+    "text": "\"All right, hold on tight, Beetle!\"",
+    "translation": "“好了，抓紧，甲虫！”",
+    "audioStart": 135,
+    "audioEnd": 137.8,
+    "grammarNote": "hold on tight 抓紧",
+    "words": []
+  },
+  {
+    "id": "s23",
+    "text": "They parachute down.",
+    "translation": "他们像跳伞一样降落。",
+    "audioStart": 140,
+    "audioEnd": 143,
+    "grammarNote": "parachute 降落伞/跳伞降落。",
+    "words": []
+  },
+  {
+    "id": "s24",
+    "text": "Now both have decided life's best on the ground.",
+    "translation": "现在他们俩都决定了：还是脚踏实地最好了。",
+    "audioStart": 143,
+    "audioEnd": 147.5,
+    "grammarNote": "both have decided 两人都决定；life's best on the ground 在地上的生活是最好的。",
+    "words": []
+  }
+]
