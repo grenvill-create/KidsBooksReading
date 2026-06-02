@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, BarChart3, Settings, Play, Pause, Save, Copy, FileCode, Check, RefreshCw, Volume2, Sparkles, Download, Upload, RotateCcw, FileJson } from 'lucide-react';
 import { booksData } from '../data/booksData';
 
-export default function ParentDashboard({ book, onBackToLibrary, onUpdateBookSentences, onResetBookSentences }) {
+export default function ParentDashboard({ book, books, onSwitchBook, onBackToLibrary, onUpdateBookSentences, onResetBookSentences }) {
   const [activeTab, setActiveTab] = useState('aligner'); // 'aligner' | 'stats' | 'help'
   const [sentences, setSentences] = useState(book.sentences);
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(0);
@@ -11,6 +11,12 @@ export default function ParentDashboard({ book, onBackToLibrary, onUpdateBookSen
   const [isCopied, setIsCopied] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  useEffect(() => {
+    setSentences(book.sentences);
+    setSelectedSentenceIndex(0);
+    setDetectedSlices([]);
+  }, [book.id, book.sentences]);
 
   // Web Audio API Silence Detector States
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -558,7 +564,21 @@ export default function ParentDashboard({ book, onBackToLibrary, onUpdateBookSen
           <ChevronLeft size={16} /> 返回绘本馆
         </button>
         <div className="parent-title-group">
-          <h2>🦒 家长管理中心与自动对齐工具</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <h2>🦒 家长管理中心与自动对齐工具</h2>
+            {books && books.length > 0 && (
+              <select 
+                className="book-selector" 
+                value={book.id} 
+                onChange={(e) => onSwitchBook && onSwitchBook(e.target.value)}
+                style={{ padding: '5px 10px', borderRadius: '8px', border: '2px solid var(--color-yellow)', fontSize: '14px', outline: 'none' }}
+              >
+                {books.map((b, index) => (
+                  <option key={b.id} value={b.id}>{index + 1}. {b.title}</option>
+                ))}
+              </select>
+            )}
+          </div>
           <p>设计并配置专属的新英文绘本、调整句子断句时间戳</p>
         </div>
       </div>

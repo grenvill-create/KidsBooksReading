@@ -109,6 +109,11 @@ function App() {
         {currentScreen === 'parent-tools' && selectedBook && (
           <ParentDashboard 
             book={selectedBook}
+            books={booksList}
+            onSwitchBook={(bookId) => {
+              const b = booksList.find(b => b.id === bookId);
+              if (b) setSelectedBook(b);
+            }}
             onBackToLibrary={handleBackToLibrary}
             onUpdateBookSentences={(bookId, updatedSentences) => {
               // Save to LocalStorage
