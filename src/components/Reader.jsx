@@ -1,6 +1,6 @@
 /* src/components/Reader.jsx */
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, RotateCcw, ChevronLeft, ChevronRight, HelpCircle, Star, Award, CheckCircle, ArrowRight, Volume2 } from 'lucide-react';
+import { Play, Pause, RotateCcw, ChevronLeft, ChevronRight, HelpCircle, Star, Award, CheckCircle, ArrowRight, Volume2, X } from 'lucide-react';
 
 export default function Reader({ book, onBackToLibrary, onEarnStars }) {
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
@@ -20,6 +20,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
   // Confetti particles state
   const [confetti, setConfetti] = useState([]);
   const [imageError, setImageError] = useState(false);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
 
   const audioRef = useRef(null);
   const timeUpdateInterval = useRef(null);
@@ -193,9 +194,10 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     };
   }, [isPlaying, currentSentenceIndex]);
 
-  // Reset image error state when changing sentence or book
+  // Reset image error and zoom state when changing sentence or book
   useEffect(() => {
     setImageError(false);
+    setIsImageZoomed(false);
   }, [currentSentenceIndex, book.id]);
 
   // 🎵 音频预加载优化：组件挂载时立即触发音频预加载
@@ -413,7 +415,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           <div className="book-main-panel bubble-card">
             <div className="illustration-placeholder">
               {!imageError ? (
-                <picture key={`${book.id}_${currentSentence.id}`}>
+                <picture key={`${book.id}_${currentSentence.id}`} onClick={() => setIsImageZoomed(true)}>
                   {/* WebP 格式：体积是 PNG 的 1/8，优先加载，提升手机端速度 */}
                   <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
                   {/* PNG 降级：兼容不支持 WebP 的旧版浏览器 */}
@@ -707,6 +709,28 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
               </div>
             </div>
           )}
+
+          {/* 🔍 图片点击放大浮层 (Image Zoom Modal Overlay) */}
+          {isImageZoomed && (
+            <div className="image-zoom-overlay" onClick={() => setIsImageZoomed(false)}>
+              <div className="image-zoom-modal bubble-card" onClick={(e) => e.stopPropagation()}>
+                <button className="zoom-close-btn" onClick={() => setIsImageZoomed(false)}>
+                  <X size={20} />
+                </button>
+                <picture key={`zoomed_${book.id}_${currentSentence.id}`}>
+                  <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
+                  <img
+                    src={getIllustrationSrc('png')}
+                    alt={currentSentence.text}
+                    className="zoomed-illustration-img"
+                  />
+                </picture>
+                <div className="zoomed-illustration-caption">
+                  {currentSentence.text}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -798,6 +822,11 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           height: 100%;
           object-fit: cover;
           border-radius: 18px;
+          cursor: zoom-in;
+          transition: transform 0.25s ease-out;
+        }
+        .illustration-img:hover {
+          transform: scale(1.025);
         }
         .illustration-placeholder picture {
           width: 100%;
@@ -818,6 +847,97 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           font-weight: 700;
           color: var(--text-medium);
         }
+
+        /* 🔍 图片放大浮层样式 */
+        .image-zoom-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(15px);
+          z-index: 1000;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+          animation: fade-in-zoom 0.25s ease-out;
+        }
+        .image-zoom-modal {
+          background: #fffcf2;
+          border-radius: var(--border-radius-bubble);
+          padding: 24px;
+          max-width: 800px;
+          width: 100%;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+          border: 4px solid var(--color-yellow);
+          animation: scale-up-bounce-zoom 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .zoom-close-btn {
+          position: absolute;
+          top: -15px;
+          right: -15px;
+          width: 44px;
+          height: 44px;
+          border-radius: 50% !important;
+          padding: 0 !important;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: var(--color-pink) !important;
+          color: white !important;
+          border: 3px solid white !important;
+          box-shadow: var(--bubble-shadow) !important;
+          cursor: pointer;
+          transition: transform 0.2s ease-in-out;
+        }
+        .zoom-close-btn:hover {
+          transform: scale(1.15) rotate(9deg);
+        }
+        .image-zoom-modal picture {
+          width: 100%;
+          display: block;
+          max-height: 65vh;
+          overflow: hidden;
+          border-radius: 18px;
+          border: 2px solid var(--border-color);
+          box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .zoomed-illustration-img {
+          width: 100%;
+          height: auto;
+          max-height: 65vh;
+          object-fit: contain;
+          display: block;
+        }
+        .zoomed-illustration-caption {
+          margin-top: 18px;
+          font-family: var(--font-kids);
+          font-weight: 800;
+          font-size: 20px;
+          text-align: center;
+          color: var(--text-dark);
+          background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-blue) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          line-height: 1.4;
+          padding: 0 10px;
+        }
+
+        @keyframes fade-in-zoom {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scale-up-bounce-zoom {
+          from { transform: scale(0.85); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+
         .sentence-display-box {
           min-height: 120px;
           display: flex;
