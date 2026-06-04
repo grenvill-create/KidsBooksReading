@@ -362,7 +362,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
                   : book.coverEmoji
                 }
               </span>
-              <div className="illustration-caption">🦒 Giraffe's Bathtub World 🛁</div>
+              <div className="illustration-caption">{book.coverEmoji} {book.title}</div>
             </div>
 
             <div className="sentence-display-box">
