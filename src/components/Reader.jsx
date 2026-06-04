@@ -413,7 +413,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           <div className="book-main-panel bubble-card">
             <div className="illustration-placeholder">
               {!imageError ? (
-                <picture>
+                <picture key={`${book.id}_${currentSentence.id}`}>
                   {/* WebP 格式：体积是 PNG 的 1/8，优先加载，提升手机端速度 */}
                   <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
                   {/* PNG 降级：兼容不支持 WebP 的旧版浏览器 */}
