@@ -19,6 +19,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
 
   // Confetti particles state
   const [confetti, setConfetti] = useState([]);
+  const [imageError, setImageError] = useState(false);
 
   const audioRef = useRef(null);
   const timeUpdateInterval = useRef(null);
@@ -45,6 +46,22 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     
     // 兜底返回相对路径，由浏览器自适应解析
     return cleanPath;
+  };
+
+  // 动态解析绘本句子插画路径，自动适配 GitHub Pages 路径部署
+  const getIllustrationSrc = () => {
+    const prefix = book.id === 'giraffe-bath' ? 'giraffe' : 'spider';
+    const rawPath = `illustrations/${prefix}_${currentSentence.id}.png`;
+    
+    const pathname = window.location.pathname;
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (!isLocalhost && pathSegments.length > 0) {
+      const repoName = pathSegments[0];
+      return `${window.location.origin}/${repoName}/${rawPath}`;
+    }
+    return rawPath;
   };
 
   // 音频加载错误监控与自动路径容错降级
@@ -174,6 +191,11 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
       }
     };
   }, [isPlaying, currentSentenceIndex]);
+
+  // Reset image error state when changing sentence or book
+  useEffect(() => {
+    setImageError(false);
+  }, [currentSentenceIndex, book.id]);
 
   // When changing sentence, reset stages
   const goToSentence = (index) => {
@@ -356,12 +378,24 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           {/* Left panel: Book Illustration & Sentence Container */}
           <div className="book-main-panel bubble-card">
             <div className="illustration-placeholder">
-              <span className="illustration-emoji">
-                {currentSentence.words && currentSentence.words.length > 0 && book.words[currentSentence.words[0]]
-                  ? book.words[currentSentence.words[0]].emoji
-                  : book.coverEmoji
-                }
-              </span>
+              {!imageError ? (
+                <img 
+                  src={getIllustrationSrc()} 
+                  alt={currentSentence.text} 
+                  className="illustration-img"
+                  onError={() => {
+                    console.log(`[Illustration Loader] 插图加载失败，自动回退到 Emoji 模式: ${getIllustrationSrc()}`);
+                    setImageError(true);
+                  }}
+                />
+              ) : (
+                <span className="illustration-emoji">
+                  {currentSentence.words && currentSentence.words.length > 0 && book.words[currentSentence.words[0]]
+                    ? book.words[currentSentence.words[0]].emoji
+                    : book.coverEmoji
+                  }
+                </span>
+              )}
               <div className="illustration-caption">{book.coverEmoji} {book.title}</div>
             </div>
 
@@ -719,6 +753,12 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           border: 2px solid var(--border-color);
           position: relative;
           overflow: hidden;
+        }
+        .illustration-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 18px;
         }
         .illustration-emoji {
           font-size: 100px;
