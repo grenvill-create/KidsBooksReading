@@ -197,6 +197,39 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     setImageError(false);
   }, [currentSentenceIndex, book.id]);
 
+  // 🎵 音频预加载优化：组件挂载时立即触发音频预加载
+  // 策略一：动态注入 <link rel="preload"> 标签，让浏览器提前发起网络请求
+  // 策略二：显式调用 audioEl.load()，覆盖手机浏览器默认禁用 preload 的策略
+  useEffect(() => {
+    const audioSrc = getAudioSrc();
+    if (!audioSrc) return;
+
+    // 策略一：注入 <link rel="preload"> 到 <head>，为浏览器提供最高优先级的下载提示
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'audio';
+    preloadLink.href = audioSrc;
+    document.head.appendChild(preloadLink);
+
+    // 策略二：在音频元素就绪后，立即调用 .load() 强制浏览器开始缓冲
+    // 使用短暂延迟确保 audioRef 已正确挂载到 DOM
+    const loadTimer = setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.load();
+        console.log(`[Audio Preloader] 已触发预加载：${audioSrc}`);
+      }
+    }, 50);
+
+    // 组件卸载时，清理动态注入的 preload 标签，避免内存泄漏
+    return () => {
+      clearTimeout(loadTimer);
+      if (preloadLink.parentNode) {
+        document.head.removeChild(preloadLink);
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [book.id]);
+
   // When changing sentence, reset stages
   const goToSentence = (index) => {
     pauseAudio();
