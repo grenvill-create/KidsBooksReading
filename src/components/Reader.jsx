@@ -822,11 +822,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           height: 100%;
           object-fit: cover;
           border-radius: 18px;
-          cursor: zoom-in;
-          transition: transform 0.25s ease-out;
-        }
-        .illustration-img:hover {
-          transform: scale(1.025);
+          cursor: pointer;
         }
         .illustration-placeholder picture {
           width: 100%;
