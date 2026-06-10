@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
@@ -9,6 +10,27 @@ export default defineConfig(({ command }) => {
     base: '/',
     plugins: [
     react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'illustrations/*.{webp,png}', '**/*.{mp3,m4a,vtt,json}'],
+      manifest: {
+        name: 'KidsBooksReading',
+        short_name: 'KidsBooks',
+        description: 'Interactive English Reading for Kids',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'favicon.svg',
+            sizes: '192x192',
+            type: 'image/svg+xml'
+          }
+        ]
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,mp3,m4a}'],
+        maximumFileSizeToCacheInBytes: 10000000, // 10MB limit for audio files
+      }
+    }),
     {
       name: 'save-books-api',
       configureServer(server) {

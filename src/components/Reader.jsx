@@ -200,6 +200,39 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     setIsImageZoomed(false);
   }, [currentSentenceIndex, book.id]);
 
+  // 🖼️ 插画预加载优化：进入绘本时静默预加载所有插画
+  useEffect(() => {
+    if (!book || !book.sentences) return;
+    
+    // 延迟 1 秒后开始后台预加载，确保不影响首屏主资源（音频/第一张图）的加载
+    const timer = setTimeout(() => {
+      // 从第二句开始预加载，因为第一句已经在视图中被浏览器主动加载了
+      for (let i = 1; i < book.sentences.length; i++) {
+        const sentence = book.sentences[i];
+        const format = 'webp';
+        const prefix = book.id === 'giraffe-bath' ? 'giraffe' : 'spider';
+        const rawPath = `illustrations/${prefix}_${sentence.id}.${format}`;
+        
+        let finalUrl = rawPath;
+        const pathname = window.location.pathname;
+        const pathSegments = pathname.split('/').filter(Boolean);
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        
+        if (!isLocalhost && pathSegments.length > 0) {
+          const repoName = pathSegments[0];
+          finalUrl = `${window.location.origin}/${repoName}/${rawPath}`;
+        }
+        
+        // 触发静默下载，浏览器会自动将其放入内存/磁盘缓存中
+        const img = new Image();
+        img.src = finalUrl;
+      }
+      console.log(`[Image Preloader] 成功触发 ${book.sentences.length - 1} 张插画的后台预加载`);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, [book.id]);
+
   // 🎵 音频预加载优化：组件挂载时立即触发音频预加载
   // 策略一：动态注入 <link rel="preload"> 标签，让浏览器提前发起网络请求
   // 策略二：显式调用 audioEl.load()，覆盖手机浏览器默认禁用 preload 的策略
@@ -423,6 +456,8 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
                     src={getIllustrationSrc('png')}
                     alt={currentSentence.text}
                     className="illustration-img"
+                    fetchpriority="high"
+                    decoding="async"
                     onError={() => {
                       console.log(`[Illustration Loader] 插图加载失败，自动回退到 Emoji 模式`);
                       setImageError(true);
