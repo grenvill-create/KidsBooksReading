@@ -8,7 +8,7 @@ export const booksData = [
     ageGroup: "4-6 years",
     coverEmoji: "🦒🛁🧼",
     coverColor: "var(--color-blue)",
-    audioUrl: "book_sound/giraffe_in_the_bath_american.mp3",
+    audioUrl: "book_sound/giraffe_in_the_bath_american.m4a",
     summary: "Giraffe worked hard in her garden today. Now she is tired and muddy and wants to take a hot bath, but there are so many funny interruptions! What will happen to her bathtub?",
     words: {
       garden: { translation: "花园", phonetic: "[ˈɡɑːdn]", emoji: "🏡", example: "Giraffe is in her garden." },
@@ -257,7 +257,7 @@ export const booksData = [
     ageGroup: "4-6 years",
     coverEmoji: "🕷️✈️☁️",
     coverColor: "var(--color-purple)",
-    audioUrl: "book_sound/spider_in_a_glider_american.mp3",
+    audioUrl: "book_sound/spider_in_a_glider_american.m4a",
     summary: "A spider wishes she could fly, so she decides to build her own glider. Will her invention work?",
     words: {
       spider: { translation: "蜘蛛", phonetic: "[ˈspaɪdər]", emoji: "🕷️", example: "The spider is small." },
