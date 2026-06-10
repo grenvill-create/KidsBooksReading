@@ -49,10 +49,11 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     return cleanPath;
   };
 
-  // 动态解析绘本句子插画路径，自动适配 GitHub Pages 路径部署
-  // 优先使用压缩后的 WebP 格式（体积比 PNG 小 88%），显著加快加载速度
-  const getIllustrationSrc = (format = 'webp') => {
-    const prefix = book.id === 'giraffe-bath' ? 'giraffe' : 'spider';
+  const getIllustrationSrc = (format = 'png') => {
+    let prefix = book.id;
+    if (book.id === 'giraffe-bath') prefix = 'giraffe';
+    if (book.id === 'spider-glider') prefix = 'spider';
+    
     const rawPath = `illustrations/${prefix}_${currentSentence.id}.${format}`;
     
     const pathname = window.location.pathname;
@@ -207,10 +208,14 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     // 延迟 1 秒后开始后台预加载，确保不影响首屏主资源（音频/第一张图）的加载
     const timer = setTimeout(() => {
       // 从第二句开始预加载，因为第一句已经在视图中被浏览器主动加载了
+      const isBuiltIn = book.id === 'giraffe-bath' || book.id === 'spider-glider';
+      const format = isBuiltIn ? 'webp' : 'png';
+      let prefix = book.id;
+      if (book.id === 'giraffe-bath') prefix = 'giraffe';
+      if (book.id === 'spider-glider') prefix = 'spider';
+      
       for (let i = 1; i < book.sentences.length; i++) {
         const sentence = book.sentences[i];
-        const format = 'webp';
-        const prefix = book.id === 'giraffe-bath' ? 'giraffe' : 'spider';
         const rawPath = `illustrations/${prefix}_${sentence.id}.${format}`;
         
         let finalUrl = rawPath;
@@ -449,9 +454,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
             <div className="illustration-placeholder">
               {!imageError ? (
                 <picture key={`${book.id}_${currentSentence.id}`} onClick={() => setIsImageZoomed(true)}>
-                  {/* WebP 格式：体积是 PNG 的 1/8，优先加载，提升手机端速度 */}
-                  <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
-                  {/* PNG 降级：兼容不支持 WebP 的旧版浏览器 */}
+                  {(book.id === 'giraffe-bath' || book.id === 'spider-glider') && (
+                    <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
+                  )}
                   <img
                     src={getIllustrationSrc('png')}
                     alt={currentSentence.text}
@@ -753,7 +758,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
                   <X size={20} />
                 </button>
                 <picture key={`zoomed_${book.id}_${currentSentence.id}`}>
-                  <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
+                  {(book.id === 'giraffe-bath' || book.id === 'spider-glider') && (
+                    <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
+                  )}
                   <img
                     src={getIllustrationSrc('png')}
                     alt={currentSentence.text}
