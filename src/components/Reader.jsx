@@ -876,14 +876,17 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           position: absolute;
           top: 120%;
           right: 0;
-          width: 320px;
+          width: 420px;
           max-height: 400px;
           display: flex;
           flex-direction: column;
           z-index: 100;
           border-radius: 20px;
           padding: 16px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(16px);
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.15);
           animation: slideDownFade 0.2s ease-out forwards;
         }
         @keyframes slideDownFade {
@@ -919,7 +922,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
         }
         .sentence-dropdown-item {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           gap: 12px;
           padding: 10px 12px;
           border-radius: 12px;
@@ -949,6 +952,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           font-size: 12px;
           font-weight: bold;
           flex-shrink: 0;
+          margin-top: 2px;
         }
         .sentence-num.completed {
           background: var(--color-mint);
@@ -959,10 +963,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
         }
         .sentence-text-preview {
           font-size: 14px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          line-height: 1.5;
           font-weight: 500;
+          word-break: break-word;
         }
         .reader-layout {
           display: grid;
