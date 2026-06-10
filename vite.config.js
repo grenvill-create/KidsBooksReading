@@ -12,7 +12,7 @@ export default defineConfig(({ command }) => {
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'illustrations/*.{webp,png}', '**/*.{mp3,m4a,vtt,json}'],
+      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
         name: 'KidsBooksReading',
         short_name: 'KidsBooks',
@@ -27,8 +27,27 @@ export default defineConfig(({ command }) => {
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,mp3,m4a}'],
-        maximumFileSizeToCacheInBytes: 10000000, // 10MB limit for audio files
+        globPatterns: ['**/*.{js,css,html,ico,svg}'],
+        maximumFileSizeToCacheInBytes: 5000000,
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images-cache',
+              expiration: { maxEntries: 50, maxAgeSeconds: 30 * 24 * 60 * 60 }
+            }
+          },
+          {
+            urlPattern: /\.(?:mp3|m4a|wav)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'audio-cache',
+              expiration: { maxEntries: 20, maxAgeSeconds: 30 * 24 * 60 * 60 },
+              cacheableResponse: { statuses: [0, 200, 206] } // Support Range requests for audio
+            }
+          }
+        ]
       }
     }),
     {
