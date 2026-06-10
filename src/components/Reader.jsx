@@ -830,6 +830,8 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           backdrop-filter: blur(12px);
           border-radius: var(--border-radius-bubble);
           border: 2px solid var(--border-color);
+          position: relative;
+          z-index: 100;
         }
         .btn-sm {
           padding: 8px 16px;
