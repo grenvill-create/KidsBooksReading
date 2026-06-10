@@ -876,8 +876,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           position: absolute;
           top: 120%;
           right: 0;
-          width: 420px;
-          max-height: 400px;
+          width: 90vw;
+          max-width: 420px;
+          max-height: 60vh;
           display: flex;
           flex-direction: column;
           z-index: 100;
