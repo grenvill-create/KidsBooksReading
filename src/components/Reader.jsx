@@ -9,6 +9,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
   const [selectedWord, setSelectedWord] = useState(null); // Selected word for bubble popup
   const [completedSentences, setCompletedSentences] = useState(new Set());
   const [isAutoplayMode, setIsAutoplayMode] = useState(false);
+  const [isSentenceMenuOpen, setIsSentenceMenuOpen] = useState(false);
   
   // Quiz State
   const [showQuiz, setShowQuiz] = useState(false);
@@ -424,15 +425,51 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           <span className="emoji-badge">{book.coverEmoji}</span>
           <span className="book-title-text">{book.title}</span>
         </div>
-        <div className="progress-pills" style={{flex: 1, justifyContent: 'flex-end', display: 'flex', gap: '4px'}}>
-          {book.sentences.map((_, index) => (
-            <div 
-              key={index} 
-              className={`progress-pill ${index === currentSentenceIndex ? 'active' : ''} ${completedSentences.has(index) ? 'completed' : ''}`}
-              onClick={() => goToSentence(index)}
-              title={`第 ${index + 1} 句`}
-            />
-          ))}
+        <div className="sentence-menu-container" style={{ position: 'relative', display: 'flex', flex: 1, justifyContent: 'flex-end' }}>
+          <button 
+            className="btn-bubble btn-secondary btn-sm sentence-progress-btn"
+            onClick={() => setIsSentenceMenuOpen(!isSentenceMenuOpen)}
+            style={{ padding: '6px 14px', position: 'relative', overflow: 'hidden' }}
+          >
+            <span style={{ position: 'relative', zIndex: 1, fontWeight: 'bold' }}>
+              📄 {currentSentenceIndex + 1} / {book.sentences.length}
+            </span>
+            <div className="mini-progress-bg">
+              <div 
+                className="mini-progress-fill" 
+                style={{ width: `${((currentSentenceIndex + 1) / book.sentences.length) * 100}%` }}
+              />
+            </div>
+          </button>
+          
+          {isSentenceMenuOpen && (
+            <>
+              <div className="dropdown-overlay" onClick={() => setIsSentenceMenuOpen(false)} />
+              <div className="sentence-dropdown-menu glass-panel">
+                <div className="dropdown-header">
+                  <h3>绘本句子导航</h3>
+                  <button className="icon-btn-small" onClick={() => setIsSentenceMenuOpen(false)}>
+                    <X size={18} />
+                  </button>
+                </div>
+                <div className="dropdown-list">
+                  {book.sentences.map((s, index) => (
+                    <div 
+                      key={index}
+                      className={`sentence-dropdown-item ${index === currentSentenceIndex ? 'active' : ''}`}
+                      onClick={() => {
+                        goToSentence(index);
+                        setIsSentenceMenuOpen(false);
+                      }}
+                    >
+                      <span className={`sentence-num ${completedSentences.has(index) ? 'completed' : ''}`}>{index + 1}</span>
+                      <span className="sentence-text-preview">{s.en}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
         <button 
           className={`btn-bubble btn-sm ml-16 ${isAutoplayMode ? 'btn-blue' : 'btn-secondary'}`}
@@ -811,27 +848,119 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           font-weight: 800;
           color: var(--text-dark);
         }
-        .progress-pills {
-          display: flex;
-          gap: 4px;
-          max-width: 320px;
-          flex-wrap: wrap;
+        .sentence-progress-btn {
+          background: #f1f5f9;
+          border: 2px solid #e2e8f0;
         }
-        .progress-pill {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
+        .mini-progress-bg {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
           background: #e2e8f0;
-          cursor: pointer;
-          transition: var(--transition-bounce);
         }
-        .progress-pill.active {
-          background: var(--color-blue);
-          transform: scale(1.3);
-          box-shadow: 0 0 8px rgba(125, 196, 255, 0.6);
-        }
-        .progress-pill.completed {
+        .mini-progress-fill {
+          height: 100%;
           background: var(--color-mint);
+          transition: width 0.3s ease;
+        }
+        .dropdown-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 99;
+        }
+        .sentence-dropdown-menu {
+          position: absolute;
+          top: 120%;
+          right: 0;
+          width: 320px;
+          max-height: 400px;
+          display: flex;
+          flex-direction: column;
+          z-index: 100;
+          border-radius: 20px;
+          padding: 16px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+          animation: slideDownFade 0.2s ease-out forwards;
+        }
+        @keyframes slideDownFade {
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .dropdown-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 12px;
+          padding-bottom: 8px;
+          border-bottom: 2px solid #f1f5f9;
+        }
+        .dropdown-header h3 {
+          margin: 0;
+          font-size: 16px;
+          color: var(--text-dark);
+        }
+        .dropdown-list {
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          padding-right: 4px;
+        }
+        .dropdown-list::-webkit-scrollbar {
+          width: 6px;
+        }
+        .dropdown-list::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 4px;
+        }
+        .sentence-dropdown-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 12px;
+          border-radius: 12px;
+          cursor: pointer;
+          background: #f8fafc;
+          transition: var(--transition-smooth);
+          text-align: left;
+        }
+        .sentence-dropdown-item:hover {
+          background: #e2e8f0;
+          transform: translateY(-1px);
+        }
+        .sentence-dropdown-item.active {
+          background: var(--color-blue);
+          color: white;
+          box-shadow: 0 4px 12px var(--color-blue-shadow);
+        }
+        .sentence-num {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #cbd5e1;
+          color: white;
+          font-size: 12px;
+          font-weight: bold;
+          flex-shrink: 0;
+        }
+        .sentence-num.completed {
+          background: var(--color-mint);
+        }
+        .sentence-dropdown-item.active .sentence-num {
+          background: white;
+          color: var(--color-blue);
+        }
+        .sentence-text-preview {
+          font-size: 14px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-weight: 500;
         }
         .reader-layout {
           display: grid;
