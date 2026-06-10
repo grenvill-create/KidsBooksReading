@@ -871,14 +871,16 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           position: fixed;
           inset: 0;
           z-index: 99;
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(4px);
         }
         .sentence-dropdown-menu {
-          position: absolute;
-          top: 120%;
-          right: 0;
+          position: fixed;
+          top: 50%;
+          left: 50%;
           width: 90vw;
           max-width: 420px;
-          max-height: 60vh;
+          max-height: 75vh;
           display: flex;
           flex-direction: column;
           z-index: 100;
@@ -888,11 +890,11 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           backdrop-filter: blur(16px);
           border: 1px solid #e2e8f0;
           box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-          animation: slideDownFade 0.2s ease-out forwards;
+          animation: modalFadeIn 0.2s ease-out forwards;
         }
-        @keyframes slideDownFade {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes modalFadeIn {
+          from { opacity: 0; transform: translate(-50%, -45%); }
+          to { opacity: 1; transform: translate(-50%, -50%); }
         }
         .dropdown-header {
           display: flex;
