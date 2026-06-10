@@ -463,7 +463,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
                       }}
                     >
                       <span className={`sentence-num ${completedSentences.has(index) ? 'completed' : ''}`}>{index + 1}</span>
-                      <span className="sentence-text-preview">{s.en}</span>
+                      <span className="sentence-text-preview">{s.text}</span>
                     </div>
                   ))}
                 </div>
