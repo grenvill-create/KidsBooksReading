@@ -46,7 +46,9 @@ export default function ParentDashboard({ book, books, onSwitchBook, onBackToLib
     if (!isLocalhost && pathSegments.length > 0) {
       // 在 GitHub Pages 等托管环境中，第一个段通常就是仓库名，以此构建绝对路径
       const repoName = pathSegments[0];
-      return `${window.location.origin}/${repoName}/${cleanPath}`;
+      if (!repoName.includes('.')) {
+        return `${window.location.origin}/${repoName}/${cleanPath}`;
+      }
     }
     
     // 兜底返回相对路径，由浏览器自适应解析

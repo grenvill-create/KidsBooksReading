@@ -1,9 +1,13 @@
 /* src/components/Reader.jsx */
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, RotateCcw, ChevronLeft, ChevronRight, HelpCircle, Star, Award, CheckCircle, ArrowRight, Volume2, X } from 'lucide-react';
+import { Play, Pause, RotateCcw, ChevronLeft, ChevronRight, HelpCircle, Star, Award, CheckCircle, ArrowRight, Volume2, X, Loader2 } from 'lucide-react';
 
 export default function Reader({ book, onBackToLibrary, onEarnStars }) {
-  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(() => {
+    const saved = localStorage.getItem(`kids_books_bookmark_${book.id}`);
+    return saved ? parseInt(saved, 10) : 0;
+  });
+  const [isAudioLoading, setIsAudioLoading] = useState(false);
   const [currentStage, setCurrentStage] = useState('listen'); // 'listen' | 'analyze' | 'vocab' | 'confirm'
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedWord, setSelectedWord] = useState(null); // Selected word for bubble popup
@@ -43,7 +47,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     if (!isLocalhost && pathSegments.length > 0) {
       // 在 GitHub Pages 等托管环境中，第一个段通常就是仓库名，以此构建绝对路径
       const repoName = pathSegments[0];
-      return `${window.location.origin}/${repoName}/${cleanPath}`;
+      if (!repoName.includes('.')) {
+        return `${window.location.origin}/${repoName}/${cleanPath}`;
+      }
     }
     
     // 兜底返回相对路径，由浏览器自适应解析
@@ -63,7 +69,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     
     if (!isLocalhost && pathSegments.length > 0) {
       const repoName = pathSegments[0];
-      return `${window.location.origin}/${repoName}/${rawPath}`;
+      if (!repoName.includes('.')) {
+        return `${window.location.origin}/${repoName}/${rawPath}`;
+      }
     }
     return rawPath;
   };
@@ -124,12 +132,15 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     
     // Position to start of sentence
     audioRef.current.currentTime = currentSentence.audioStart;
+    setIsAudioLoading(true);
     audioRef.current.play()
       .then(() => {
         setIsPlaying(true);
+        setIsAudioLoading(false);
       })
       .catch(err => {
         console.log("Audio play blocked/failed:", err);
+        setIsAudioLoading(false);
       });
   };
 
@@ -226,7 +237,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
         
         if (!isLocalhost && pathSegments.length > 0) {
           const repoName = pathSegments[0];
-          finalUrl = `${window.location.origin}/${repoName}/${rawPath}`;
+          if (!repoName.includes('.')) {
+            finalUrl = `${window.location.origin}/${repoName}/${rawPath}`;
+          }
         }
         
         // 触发静默下载，浏览器会自动将其放入内存/磁盘缓存中
@@ -276,6 +289,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
   const goToSentence = (index) => {
     pauseAudio();
     setCurrentSentenceIndex(index);
+    localStorage.setItem(`kids_books_bookmark_${book.id}`, index.toString());
     setCurrentStage('listen');
     setSelectedWord(null);
     setIsPlaying(false);
@@ -396,6 +410,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
         src={getAudioSrc()} 
         preload="auto"
         onError={handleAudioError}
+        onWaiting={() => setIsAudioLoading(true)}
+        onPlaying={() => setIsAudioLoading(false)}
+        onCanPlay={() => setIsAudioLoading(false)}
       />
 
       {/* Confetti canvas simulator */}
@@ -558,7 +575,13 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
                   className={`btn-bubble ${isPlaying ? 'btn-yellow' : 'btn-pink'} btn-round-lg`}
                   onClick={isPlaying ? pauseAudio : playSegment}
                 >
-                  {isPlaying ? <Pause size={24} /> : <Play size={24} style={{ marginLeft: 3 }} />}
+                  {isAudioLoading ? (
+                    <Loader2 size={24} className="loader-spin" />
+                  ) : isPlaying ? (
+                    <Pause size={24} />
+                  ) : (
+                    <Play size={24} style={{ marginLeft: 3 }} />
+                  )}
                 </button>
                 <button className="btn-bubble btn-blue btn-round" onClick={playSegment}>
                   <RotateCcw size={18} />
