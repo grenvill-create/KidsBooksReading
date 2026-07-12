@@ -492,5 +492,215 @@ export const booksData = [
         ]
       }
     ]
+  },
+  {
+    id: "hyena-ballerina",
+    title: "Hyena Ballerina",
+    difficulty: "L1",
+    ageGroup: "4-6 years",
+    coverEmoji: "🐆🩰🎭",
+    coverColor: "var(--color-pink)",
+    audioUrl: "book_sound/hyena_ballerina_american.mp3",
+    summary: "Hyena longs to become a ballerina, but will her dreams come true? Follow her story of determination and dance!",
+    words: {
+      ballerina: { translation: "芭蕾舞女演员", phonetic: "[ˌbæləˈriːnə]", emoji: "🩰", example: "Hyena longs to become a ballerina." },
+      tutu: { translation: "芭蕾舞裙", phonetic: "[ˈtuːtuː]", emoji: "👗", example: "In my frilly silk tutu." },
+      audition: { translation: "试镜/选拔", phonetic: "[ɔːˈdɪʃn]", emoji: "🎭", example: "10 students are wanted." },
+      success: { translation: "成功", phonetic: "[səkˈses]", emoji: "🏆", example: "You're bound to succeed." },
+      exciting: { translation: "令人兴奋的", phonetic: "[ɪkˈsaɪtɪŋ]", emoji: "🤩", example: "My part is exciting!" }
+    },
+            sentences: [
+      {
+        id: "s1",
+        text: "10 students are wanted at Swan's ballet school.",
+        translation: "天鹅芭蕾舞学校正在招收10名学生。",
+        audioStart: 9.8,
+        audioEnd: 13,
+        grammarNote: "students 表示学生（复数）；wanted 被需要/招收（被动语态）；Swan's ballet school 是天鹅芭蕾舞学校。",
+        words: ["audition"]
+      },
+      {
+        id: "s2",
+        text: "'What a chance!' cries Hyena. 'To dance will be cool!'",
+        translation: "“好机会！”鬣狗喊道，“能跳舞太酷了！”",
+        audioStart: 14.1,
+        audioEnd: 18.2,
+        grammarNote: "What a chance! 是感叹句，意为“多么好的机会啊！”；cries 喊道；to dance 动词不定式作主语，表示“跳舞这件事”；cool 表示酷、极棒的。",
+        words: []
+      },
+      {
+        id: "s3",
+        text: "I think that I'm ready to prove I can move in my frilly silk tutu and pink satin shoes.",
+        translation: "我觉得我已经准备好去证明，穿着我的皱褶丝绸芭蕾裙和粉色缎面鞋也能优美舞动。",
+        audioStart: 21.8,
+        audioEnd: 29.8,
+        grammarNote: "think that 觉得/认为（引导宾语从句）；ready to 准备好做某事；prove 证明；frilly 褶边的；silk tutu 丝绸芭蕾舞裙；satin shoes 缎面鞋。",
+        words: ["tutu", "ballerina"]
+      },
+      {
+        id: "s4",
+        text: "Swan brings them together. 'Let's see what you've got.'",
+        translation: "天鹅老师把他们召集在一起。“让我们看看你们的本领。”",
+        audioStart: 33.6,
+        audioEnd: 37.2,
+        grammarNote: "brings them together 把他们召集在一起；Let's see 让我们看看；what you've got 你们所拥有的（本事/才华）。",
+        words: []
+      },
+      {
+        id: "s5",
+        text: "Hyena springs forward and spins on the spot.",
+        translation: "鬣狗向前跃起并在原地旋转。",
+        audioStart: 38.2,
+        audioEnd: 41.4,
+        grammarNote: "springs forward 向前跳跃；spins 旋转；on the spot 在原地。",
+        words: []
+      },
+      {
+        id: "s6",
+        text: "She stands high on tiptoe, leans back on a chair.",
+        translation: "她高高地脚尖站立，身子向后靠在椅子上。",
+        audioStart: 44,
+        audioEnd: 50.3,
+        grammarNote: "stands high on tiptoe 高高地用脚尖站立；leans back 向后靠；on a chair 在椅子上。",
+        words: []
+      },
+      {
+        id: "s7",
+        text: "Twirls lightly in circles and floats through the air.",
+        translation: "轻快地打转，仿佛漂浮在半空中。",
+        audioStart: 51,
+        audioEnd: 55.4,
+        grammarNote: "twirls 旋转/打转；lightly 轻盈地；in circles 绕着圈；floats 漂浮；through the air 穿过空气。",
+        words: []
+      },
+      {
+        id: "s8",
+        text: "I can prance like a princess, or glide like a fairy.",
+        translation: "我可以像公主一样昂首阔步，或像仙女一样轻盈滑行。",
+        audioStart: 59.1,
+        audioEnd: 63.2,
+        grammarNote: "prance 昂首阔步/欢跃；like a princess 像公主一样；glide 滑行；like a fairy 像仙女一样。",
+        words: []
+      },
+      {
+        id: "s9",
+        text: "Swan soon loses interest: 'Too spotty and hairy!'",
+        translation: "天鹅老师很快失去了兴趣：“身上斑点太多，而且毛茸茸的！”",
+        audioStart: 64.8,
+        audioEnd: 69.3,
+        grammarNote: "loses interest 失去兴趣；too 太...（表示否定意愿）；spotty 有斑点的；hairy 多毛的。",
+        words: []
+      },
+      {
+        id: "s10",
+        text: "Hyena feels weepy, she sticks out her chin.",
+        translation: "鬣狗觉得很想哭，但她扬起下巴（表示不服气或坚持）。",
+        audioStart: 72.9,
+        audioEnd: 79,
+        grammarNote: "feels weepy 觉得想哭；sticks out her chin 扬起下巴（常用来表示决心或坚强面对困难）。",
+        words: []
+      },
+      {
+        id: "s11",
+        text: "'I can't give up dancing, I'll try one more spin.'",
+        translation: "“我不能放弃跳舞，我要再试着转一圈。”",
+        audioStart: 78,
+        audioEnd: 82.2,
+        grammarNote: "give up 放弃；try 尝试；one more spin 再多旋转一次。",
+        words: []
+      },
+      {
+        id: "s12",
+        text: "'What luck!' shouts out Duck. 'You're just what I need!'",
+        translation: "“真走运！”鸭子大喊道，“你正是我需要的人！”",
+        audioStart: 86,
+        audioEnd: 90.1,
+        grammarNote: "What luck! 真走运/运气真好（感叹句）；shouts out 大声喊；just what I need 正是我所需要的（what 引导名词性从句作宾语）。",
+        words: []
+      },
+      {
+        id: "s13",
+        text: "'You must join my stage show, you're bound to succeed.'",
+        translation: "“你必须加入我的舞台秀，你一定会成功的。”",
+        audioStart: 91.1,
+        audioEnd: 95.1,
+        grammarNote: "must 必须（情态动词）；join 加入；stage show 舞台演出；be bound to 一定/注定会...；succeed 成功（动词）。",
+        words: ["success"]
+      },
+      {
+        id: "s14",
+        text: "My acts can jump hurdles or balance a ball, but ballet like that will attract one and all.",
+        translation: "“我的表演可以跳越障碍或平衡球，但像那样的芭蕾舞会吸引所有人。”",
+        audioStart: 99.1,
+        audioEnd: 106.4,
+        grammarNote: "acts 表演项目/节目；jump hurdles 跳越栏杆/障碍；balance a ball 平衡球；attract 吸引；one and all 所有人。",
+        words: []
+      },
+      {
+        id: "s15",
+        text: "'I'm spotted and furry, you're sure you don't mind?'",
+        translation: "“我身上有斑点而且毛茸茸的，你确定不介意吗？”",
+        audioStart: 109,
+        audioEnd: 114,
+        grammarNote: "furry 毛茸茸的（类似于 hairy）；sure 确信；don't mind 不介意。",
+        words: []
+      },
+      {
+        id: "s16",
+        text: "'Not a bit, don't you worry, you'll fit in just fine!'",
+        translation: "“一点也不介意，不用担心，你会融入得很完美的！”",
+        audioStart: 114,
+        audioEnd: 118.9,
+        grammarNote: "not a bit 一点也不；don't you worry 别担心；fit in 融入/合得来；just fine 很好/很完美。",
+        words: []
+      },
+      {
+        id: "s17",
+        text: "As soon as they see her, the crowds howl 'Bravo!'",
+        translation: "大家一看到她，观众们就大声欢呼：“太棒了！”",
+        audioStart: 123,
+        audioEnd: 127,
+        grammarNote: "As soon as 一...就...（引导时间状语从句）；crowds 观众们/人群；howl 欢呼/大喊；Bravo 喝彩声（好啊/太棒了）。",
+        words: []
+      },
+      {
+        id: "s18",
+        text: "Hyena Ballerina is the star of the show!",
+        translation: "鬣狗芭蕾舞演员成了全场演出的明星！",
+        audioStart: 127,
+        audioEnd: 131.5,
+        grammarNote: "star of the show 演出的明星（最引人注目的人）。",
+        words: ["ballerina"]
+      }
+    ],
+    quizzes: [
+      {
+        id: "q1",
+        question: "What does Hyena dream of becoming?",
+        options: [
+          { text: "A ballerina 🩰", isCorrect: true },
+          { text: "A doctor 🩺", isCorrect: false },
+          { text: "A pilot 🧑‍✈️", isCorrect: false }
+        ]
+      },
+      {
+        id: "q2",
+        question: "Why did Swan reject Hyena at first?",
+        options: [
+          { text: "Because she was too spotty and hairy 🐆", isCorrect: true },
+          { text: "Because she couldn't jump 🦘", isCorrect: false },
+          { text: "Because she was too loud 🔊", isCorrect: false }
+        ]
+      },
+      {
+        id: "q3",
+        question: "Who invited Hyena to join the stage show?",
+        options: [
+          { text: "Swan 🦢", isCorrect: false },
+          { text: "Duck 🦆", isCorrect: true },
+          { text: "Beetle 🪲", isCorrect: false }
+        ]
+      }
+    ]
   }
 ];

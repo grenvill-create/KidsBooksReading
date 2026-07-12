@@ -20,13 +20,38 @@ function App() {
         try {
           const customSentences = JSON.parse(savedData);
           if (Array.isArray(customSentences) && customSentences.length > 0) {
+            // 如果是 hyena-ballerina，非破坏性地更新 s3 时间，且修正 s8 的文本错误，保留用户对其它句子的精调成果
+            if (book.id === 'hyena-ballerina') {
+              let updated = false;
+              const migratedSentences = customSentences.map(s => {
+                if (s.id === 's3' && s.audioStart === 26.0) {
+                  updated = true;
+                  s = { ...s, audioStart: 21.8 };
+                }
+                if (s.id === 's8' && s.text.startsWith('To spin')) {
+                  updated = true;
+                  s = { 
+                    ...s, 
+                    text: "I can prance like a princess, or glide like a fairy.",
+                    translation: "我可以像公主一样昂首阔步，或像仙女一样轻盈滑行。",
+                    grammarNote: "prance 昂首阔步/欢跃；like a princess 像公主一样；glide 滑行；like a fairy 像仙女一样。"
+                  };
+                }
+                return s;
+              });
+              if (updated) {
+                console.log("Updating cached s3/s8, preserving user modifications for other sentences...");
+                localStorage.setItem(`kids_books_custom_${book.id}`, JSON.stringify(migratedSentences));
+                return { ...book, sentences: migratedSentences };
+              }
+            }
             // 自动迁移逻辑：如果缓存里的句子数量比最新代码里的少（说明有拆分更新）
             if (customSentences.length < book.sentences.length) {
               console.log(`Migrating cache for book ${book.id}...`);
-              // 保留前 21 句的缓存（也就是用户自己调好的时间）
-              const preservedSentences = customSentences.slice(0, 21);
-              // 加上第 22 句及以后的最新代码拆分结果
-              const newSentences = book.sentences.slice(21);
+              // 自动计算合并点，保留用户前段已精调的句子，并追加末端新增的句子
+              const preserveLimit = customSentences.length;
+              const preservedSentences = customSentences.slice(0, preserveLimit);
+              const newSentences = book.sentences.slice(preserveLimit);
               const mergedSentences = [...preservedSentences, ...newSentences];
               
               // 用合并后的新数据静默更新用户的本地缓存，不丢失他们之前的进度！
