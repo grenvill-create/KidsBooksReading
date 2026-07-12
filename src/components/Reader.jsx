@@ -60,6 +60,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     let prefix = book.id;
     if (book.id === 'giraffe-bath') prefix = 'giraffe';
     if (book.id === 'spider-glider') prefix = 'spider';
+    if (book.id === 'hyena-ballerina') prefix = 'hyena';
     
     const rawPath = `illustrations/${prefix}_${currentSentence.id}.${format}`;
     
@@ -220,11 +221,12 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     // 延迟 1 秒后开始后台预加载，确保不影响首屏主资源（音频/第一张图）的加载
     const timer = setTimeout(() => {
       // 从第二句开始预加载，因为第一句已经在视图中被浏览器主动加载了
-      const isBuiltIn = book.id === 'giraffe-bath' || book.id === 'spider-glider';
+      const isBuiltIn = book.id === 'giraffe-bath' || book.id === 'spider-glider' || book.id === 'hyena-ballerina';
       const format = isBuiltIn ? 'webp' : 'png';
       let prefix = book.id;
       if (book.id === 'giraffe-bath') prefix = 'giraffe';
       if (book.id === 'spider-glider') prefix = 'spider';
+      if (book.id === 'hyena-ballerina') prefix = 'hyena';
       
       for (let i = 1; i < book.sentences.length; i++) {
         const sentence = book.sentences[i];
