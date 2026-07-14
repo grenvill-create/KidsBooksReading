@@ -1057,7 +1057,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           position: relative;
         }
         .illustration-placeholder {
-          height: 260px;
+          height: 420px;
           background: linear-gradient(135deg, #ebf6ff 0%, #d8e8f7 100%);
           border-radius: 20px;
           display: flex;
@@ -1072,14 +1072,16 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
         .illustration-img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
           border-radius: 18px;
           cursor: pointer;
         }
         .illustration-placeholder picture {
           width: 100%;
           height: 100%;
-          display: block;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .illustration-emoji {
           font-size: 100px;
@@ -1589,6 +1591,9 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
           }
           .guided-panel {
             min-height: auto;
+          }
+          .illustration-placeholder {
+            height: 280px;
           }
         }
       `}</style>
