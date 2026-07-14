@@ -510,7 +510,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
             <div className="illustration-placeholder">
               {!imageError ? (
                 <picture key={`${book.id}_${currentSentence.id}`} onClick={() => setIsImageZoomed(true)}>
-                  {(book.id === 'giraffe-bath' || book.id === 'spider-glider') && (
+                  {(book.id === 'giraffe-bath' || book.id === 'spider-glider' || book.id === 'hyena-ballerina') && (
                     <source srcSet={getIllustrationSrc('webp')} type="image/webp" />
                   )}
                   <img
