@@ -388,13 +388,61 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
                 setCurrentStage('vocab');
               }
             } else {
+              // Set loading state first
               setSelectedWord({
                 name: cleanWord,
-                translation: "普通单词，跟着音频一起读吧！",
-                phonetic: "",
-                emoji: "✏️",
+                translation: "正在查询翻译...",
+                phonetic: "正在查询音标...",
+                emoji: "🔍",
                 example: rawWord
               });
+              
+              // Jump to vocab stage automatically if not already there
+              if (currentStage === 'listen' || currentStage === 'analyze') {
+                setCurrentStage('vocab');
+              }
+              
+              // Query Google Translate API for Chinese translation
+              fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-CN&dt=t&q=${encodeURIComponent(cleanWord)}`)
+                .then(res => res.json())
+                .then(translateData => {
+                  const translationText = translateData?.[0]?.[0]?.[0] || "普通单词";
+                  
+                  // Query Free Dictionary API for phonetic transcription
+                  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanWord)}`)
+                    .then(res => res.json())
+                    .then(dictData => {
+                      const phoneticText = dictData?.[0]?.phonetic || dictData?.[0]?.phonetics?.find(p => p.text)?.text || "";
+                      
+                      setSelectedWord({
+                        name: cleanWord,
+                        translation: translationText,
+                        phonetic: phoneticText,
+                        emoji: "📖",
+                        example: "普通词汇"
+                      });
+                    })
+                    .catch(() => {
+                      // Fallback if dictionary API fails, keeping the translation
+                      setSelectedWord({
+                        name: cleanWord,
+                        translation: translationText,
+                        phonetic: "",
+                        emoji: "📖",
+                        example: "普通词汇"
+                      });
+                    });
+                })
+                .catch(err => {
+                  console.error("查词翻译错误:", err);
+                  setSelectedWord({
+                    name: cleanWord,
+                    translation: "查词失败，请检查网络",
+                    phonetic: "",
+                    emoji: "⚠️",
+                    example: rawWord
+                  });
+                });
             }
           }}
         >
