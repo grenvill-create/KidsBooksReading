@@ -4,6 +4,21 @@ import { BookOpen, Settings, Star, Award, Sparkles } from 'lucide-react';
 import { booksData } from '../data/booksData';
 
 export default function Library({ onSelectBook, onOpenParentDashboard, starsCount, books = booksData }) {
+  const getBookCoverSrc = (bookId, format = 'png') => {
+    const rawPath = `covers/${bookId}.${format}`;
+    const pathname = window.location.pathname;
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (!isLocalhost && pathSegments.length > 0) {
+      const repoName = pathSegments[0];
+      if (!repoName.includes('.')) {
+        return `${window.location.origin}/${repoName}/${rawPath}`;
+      }
+    }
+    return rawPath;
+  };
+
   return (
     <div className="library-container">
       <div className="library-hero bubble-card" style={{ background: 'linear-gradient(135deg, #fffcf0 0%, #fff6d6 100%)', bordercolor: 'var(--color-yellow)' }}>
@@ -37,7 +52,22 @@ export default function Library({ onSelectBook, onOpenParentDashboard, starsCoun
               难度 {book.difficulty}
             </div>
             <div className="book-age">{book.ageGroup}</div>
-            <div className="book-cover-emoji">{book.coverEmoji}</div>
+            
+            <div className="book-cover-container">
+              <picture>
+                <source srcSet={getBookCoverSrc(book.id, 'webp')} type="image/webp" />
+                <img 
+                  src={getBookCoverSrc(book.id, 'png')} 
+                  alt={book.title} 
+                  className="book-cover-img" 
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </picture>
+              <div className="book-cover-badge-emoji">{book.coverEmoji}</div>
+            </div>
+
             <h3 className="book-title">{book.title}</h3>
             <p className="book-desc">{book.summary}</p>
             
@@ -157,6 +187,49 @@ export default function Library({ onSelectBook, onOpenParentDashboard, starsCoun
         }
         .book-card:hover .book-cover-emoji {
           transform: scale(1.15) rotate(-5deg);
+        }
+        .book-cover-container {
+          height: 180px;
+          margin-top: 40px;
+          margin-bottom: 20px;
+          border-radius: 16px;
+          overflow: hidden;
+          background: linear-gradient(135deg, #ebf6ff 0%, #d8e8f7 100%);
+          border: 2px solid var(--border-color);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .book-cover-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: var(--transition-bounce);
+        }
+        .book-card:hover .book-cover-img {
+          transform: scale(1.06);
+        }
+        .book-cover-badge-emoji {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          background: white;
+          border: 2px solid var(--border-color);
+          border-radius: 50%;
+          width: 38px;
+          height: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          box-shadow: 0 4px 0 var(--border-color);
+          user-select: none;
+          transition: var(--transition-bounce);
+        }
+        .book-card:hover .book-cover-badge-emoji {
+          transform: scale(1.15) rotate(-10deg);
         }
         .book-title {
           font-size: 22px;
