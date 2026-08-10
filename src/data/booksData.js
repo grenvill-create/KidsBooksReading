@@ -732,7 +732,7 @@ export const booksData = [
       {
         id: "s2",
         text: "\"who\"\"who\" \"Let me see too\"",
-        translation: "“是谁？是谁？”“也让我看看！”",
+        translation: "“让我看看！”“我也要看！”",
         audioStart: 14,
         audioEnd: 20,
         grammarNote: "Let me see 让我看看（祈使句）；Me, too 我也是。",
@@ -741,7 +741,7 @@ export const booksData = [
       {
         id: "s3",
         text: "The crate opens POP! And out with a hop jumps a...I don't know what! Wait Did it moo? Is it a gnu?",
-        translation: "木箱“啪”地打开了！伴随着一蹦一跳，跳出来一只...我也不知道是什么！等等，它是发出哞哞叫吗？是一只角马吗？",
+        translation: "木箱“啪”的一声打开了！伴随着一蹦一跳，跳出来一只...",
         audioStart: 23.7,
         audioEnd: 35.8,
         grammarNote: "POP! 拟声词，啪的一声；with a hop 伴随着一跳；jumps a... 倒装句，强调跳出来的动作。",
@@ -768,7 +768,7 @@ export const booksData = [
       {
         id: "s6",
         text: "\"Oops\" \"Whoops\" \"Take care! Not there!\"",
-        translation: "“哎呀！”“哎哟！”“小心！别往那儿蹦！”",
+        translation: "“小心！别撞到那儿！”",
         audioStart: 51,
         audioEnd: 59,
         grammarNote: "Take care 小心、当心；Not there 不要在那里。",
@@ -777,7 +777,7 @@ export const booksData = [
       {
         id: "s7",
         text: "A scared little monkey leaps up a tree, and cries, \"I'm too high! Please, please help me!\"",
-        translation: "一只受惊的小猴子跳到了树上，哭着喊：“我太高了！请救救我！”",
+        translation: "一只受惊的小猴子吓得跳到了树上，哭着喊：“我太高了！快救救我！”",
         audioStart: 58.4,
         audioEnd: 67.3,
         grammarNote: "scared 害怕的；leaps up 跳上；cries 哭喊；too high 太高了。",
@@ -786,7 +786,7 @@ export const booksData = [
       {
         id: "s8",
         text: "His mother sighs. She starts to frown. Elephant tries to lift him down.",
-        translation: "猴妈妈叹了口气，皱起了眉头。大象试着把它举下来。",
+        translation: "猴妈妈叹了口气发愁。大象试着伸手把它接下来。",
         audioStart: 70,
         audioEnd: 77,
         grammarNote: "sighs 叹气；frown 皱眉；tries to 试图做某事；lift him down 把他举/降下来。",
@@ -795,7 +795,7 @@ export const booksData = [
       {
         id: "s9",
         text: "\"Can you do it?\" \"Nothing to it!\" \"No\" \"Oh\"",
-        translation: "“你能做到吗？”“简单得很！”“不行啊...”“哎呀...”",
+        translation: "“你能做到吗？”“简单得很！”",
         audioStart: 77,
         audioEnd: 83.8,
         grammarNote: "Nothing to it 没什么难的、小事一桩。",
@@ -804,16 +804,16 @@ export const booksData = [
       {
         id: "s10",
         text: "\"I'll have him free in just a sec.\" Giraffe holds up her long, long neck.",
-        translation: "“我马上就能救它下来。”长颈鹿伸长了她长长的脖子。",
+        translation: "“我一秒钟就能把它救下来。”长颈鹿伸长了脖子。",
         audioStart: 87,
-        audioEnd: 93,
+        audioEnd: 93.5,
         grammarNote: "have him free 让他自由/解救他；in just a sec 只要一秒钟（sec 是 second 的简写）；holds up 举起、伸长。",
         words: []
       },
       {
         id: "s11",
         text: "\"Can you do it?\" \"Nothing to it!\" \"No\" \"Oh\"",
-        translation: "“你能做到吗？”“小事一桩！”“不行啊...”“哎呀...”",
+        translation: "“你能做到吗？”“小事一桩！”",
         audioStart: 93.6,
         audioEnd: 101,
         grammarNote: "重复的句型，增强故事的节奏感。",
@@ -822,7 +822,7 @@ export const booksData = [
       {
         id: "s12",
         text: "But nothing works... \"Then let me try!\"",
-        translation: "但是都没成功...“那让我来试试吧！”",
+        translation: "但是大家都没成功...“那让我来试试吧！”",
         audioStart: 103.6,
         audioEnd: 108,
         grammarNote: "nothing works 都不起作用/都没成功；let me try 让我试试。",
@@ -831,7 +831,7 @@ export const booksData = [
       {
         id: "s13",
         text: "Kanga bounces to the sky... Oh!",
-        translation: "袋鼠跃上了天空... 噢！",
+        translation: "袋鼠高高跃向天空... 嗖——！",
         audioStart: 109,
         audioEnd: 113,
         grammarNote: "to the sky 向着天空；Wheee 表示兴奋或快速运动时的拟声词。",
@@ -840,7 +840,7 @@ export const booksData = [
       {
         id: "s14",
         text: "Again she jumps and bumps the tree.",
-        translation: "她再次起跳，撞到了大树。",
+        translation: "她再次起跳，轻轻撞了一下大树。",
         audioStart: 116.5,
         audioEnd: 120,
         grammarNote: "Again 再次；jumps 跳跃；bumps 撞击。",
@@ -849,7 +849,7 @@ export const booksData = [
       {
         id: "s15",
         text: "The baby monkey falls down... Wheee!",
-        translation: "小猴子掉了下来... 哇——！",
+        translation: "小猴子掉了下来... 咻——！",
         audioStart: 120.5,
         audioEnd: 125,
         grammarNote: "falls down 掉下来。",
@@ -858,7 +858,7 @@ export const booksData = [
       {
         id: "s16",
         text: "Three frightened bats and meerkats cry: \"Baby monkeys cannot fly! He's going to crash! I can't look!\" \"Ouch\"",
-        translation: "三只受惊的蝙蝠和狐獴尖叫道：“小猴子不会飞啊！他要摔地上了！我不敢看了！”“哎哟！”",
+        translation: "三只受惊的蝙蝠和猫鼬尖叫道：“小猴子不会飞啊！它要摔地上了！我不敢看了！”",
         audioStart: 126.9,
         audioEnd: 138,
         grammarNote: "frightened 害怕的、受惊的；cannot fly 不会飞；going to crash 将要坠毁/摔碎；can't look now 现在不敢看。",
@@ -867,7 +867,7 @@ export const booksData = [
       {
         id: "s17",
         text: "But Monkey lands in Kanga's pouch!  Hooray!",
-        translation: "结果小猴子落进了袋鼠的育儿袋里！好耶！",
+        translation: "结果小猴子稳稳落进了袋鼠的育儿袋里！哎呦！太棒啦！",
         audioStart: 141.2,
         audioEnd: 149,
         grammarNote: "lands in 降落在...里；Kanga's 袋鼠的；pouch 育儿袋；Ouch 哎呦（表示疼）；Hooray 欢呼声（万岁/太棒了）。",
