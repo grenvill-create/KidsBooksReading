@@ -253,7 +253,7 @@ export const booksData = [
   {
     id: "spider-glider",
     title: "Spider in a Glider",
-    difficulty: "L1",
+    difficulty: "L2",
     ageGroup: "4-6 years",
     coverEmoji: "🕷️✈️☁️",
     coverColor: "var(--color-purple)",
