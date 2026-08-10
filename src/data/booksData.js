@@ -4,7 +4,7 @@ export const booksData = [
   {
     id: "giraffe-bath",
     title: "Giraffe in the Bath",
-    difficulty: "L1",
+    difficulty: "L2",
     ageGroup: "4-6 years",
     coverEmoji: "🦒🛁🧼",
     coverColor: "var(--color-blue)",
