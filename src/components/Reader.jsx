@@ -61,6 +61,7 @@ export default function Reader({ book, onBackToLibrary, onEarnStars }) {
     if (book.id === 'giraffe-bath') prefix = 'giraffe';
     if (book.id === 'spider-glider') prefix = 'spider';
     if (book.id === 'hyena-ballerina') prefix = 'hyena';
+    if (book.id === 'kangaroo-at-the-zoo') prefix = 'kangaroo';
     
     const rawPath = `illustrations/${prefix}_${currentSentence.id}.${format}`;
     
