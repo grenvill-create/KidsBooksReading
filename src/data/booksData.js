@@ -702,5 +702,206 @@ export const booksData = [
         ]
       }
     ]
+  },
+  {
+    id: "kangaroo-at-the-zoo",
+    title: "Kangaroo at the Zoo",
+    difficulty: "L1",
+    ageGroup: "4-6 years",
+    coverEmoji: "🦘🐒🌳",
+    coverColor: "var(--color-orange)",
+    audioUrl: "book_sound/kangaroo_at_the_zoo_american.mp3",
+    summary: "What a hullabaloo! Someone new at the zoo! Follow Kangaroo as she bounces around and tries to help a baby monkey stuck in a tree.",
+    words: {
+      kangaroo: { translation: "袋鼠", phonetic: "[ˌkæŋɡəˈruː]", emoji: "🦘", example: "I'm a Kangaroo!" },
+      zoo: { translation: "动物园", phonetic: "[zuː]", emoji: "🦁", example: "Someone new at the zoo!" },
+      monkey: { translation: "猴子", phonetic: "[ˈmʌŋki]", emoji: "🐒", example: "A scared little monkey leaps up a tree." },
+      pouch: { translation: "育儿袋", phonetic: "[paʊtʃ]", emoji: "👜", example: "Monkey lands in Kanga's pouch!" },
+      bounce: { translation: "弹跳", phonetic: "[baʊns]", emoji: "🦘", example: "She bounces and springs." }
+    },
+    sentences: [
+      {
+        id: "s1",
+        text: "What a hullabaloo! Someone new at the zoo!",
+        translation: "动物园里真热闹！来了一位新朋友！",
+        audioStart: 9.0,
+        audioEnd: 14.0,
+        grammarNote: "What a hullabaloo! 多么喧闹啊！（感叹句）；Someone new 有新朋友（复合不定代词后置定语）。",
+        words: ["zoo"]
+      },
+      {
+        id: "s2",
+        text: "\"Let me see!\" \"Me, too!\"",
+        translation: "“让我看看！”“我也要看！”",
+        audioStart: 14.0,
+        audioEnd: 20.0,
+        grammarNote: "Let me see 让我看看（祈使句）；Me, too 我也是。",
+        words: []
+      },
+      {
+        id: "s3",
+        text: "The crate opens POP! And out with a hop jumps a...",
+        translation: "木箱“啪”的一声打开了！伴随着一蹦一跳，跳出来一只...",
+        audioStart: 21.0,
+        audioEnd: 27.0,
+        grammarNote: "POP! 拟声词，啪的一声；with a hop 伴随着一跳；jumps a... 倒装句，强调跳出来的动作。",
+        words: []
+      },
+      {
+        id: "s4",
+        text: "\"How do you do? I'm Kangaroo!\"",
+        translation: "“你好呀！我是袋鼠！”",
+        audioStart: 36.0,
+        audioEnd: 42.0,
+        grammarNote: "How do you do? 传统的初次见面问候语，你好。",
+        words: ["kangaroo"]
+      },
+      {
+        id: "s5",
+        text: "And she bounces and springs all over the zoo!",
+        translation: "她欢快地在整个动物园里蹦蹦跳跳！",
+        audioStart: 44.0,
+        audioEnd: 52.0,
+        grammarNote: "bounces 弹跳；springs 跳跃；all over 到处、遍及。",
+        words: ["bounce", "zoo"]
+      },
+      {
+        id: "s6",
+        text: "\"Take care! Not there!\"",
+        translation: "“小心！别撞到那儿！”",
+        audioStart: 54.0,
+        audioEnd: 60.0,
+        grammarNote: "Take care 小心、当心；Not there 不要在那里。",
+        words: []
+      },
+      {
+        id: "s7",
+        text: "A scared little monkey leaps up a tree, and cries, \"I'm too high! Please, please help me!\"",
+        translation: "一只受惊的小猴子吓得跳到了树上，哭着喊：“我太高了！快救救我！”",
+        audioStart: 60.0,
+        audioEnd: 68.0,
+        grammarNote: "scared 害怕的；leaps up 跳上；cries 哭喊；too high 太高了。",
+        words: ["monkey"]
+      },
+      {
+        id: "s8",
+        text: "His mother sighs. She starts to frown. Elephant tries to lift him down.",
+        translation: "猴妈妈叹了口气发愁。大象试着伸手把它接下来。",
+        audioStart: 70.0,
+        audioEnd: 77.0,
+        grammarNote: "sighs 叹气；frown 皱眉；tries to 试图做某事；lift him down 把他举/降下来。",
+        words: []
+      },
+      {
+        id: "s9",
+        text: "\"Can you do it?\" \"Nothing to it!\"",
+        translation: "“你能做到吗？”“简单得很！”",
+        audioStart: 77.0,
+        audioEnd: 82.0,
+        grammarNote: "Nothing to it 没什么难的、小事一桩。",
+        words: []
+      },
+      {
+        id: "s10",
+        text: "\"I'll have him free in just a sec.\" Giraffe holds up her long, long neck.",
+        translation: "“我一秒钟就能把它救下来。”长颈鹿伸长了脖子。",
+        audioStart: 87.0,
+        audioEnd: 93.0,
+        grammarNote: "have him free 让他自由/解救他；in just a sec 只要一秒钟（sec 是 second 的简写）；holds up 举起、伸长。",
+        words: []
+      },
+      {
+        id: "s11",
+        text: "\"Can you do it?\" \"Nothing to it!\"",
+        translation: "“你能做到吗？”“小事一桩！”",
+        audioStart: 93.0,
+        audioEnd: 99.0,
+        grammarNote: "重复的句型，增强故事的节奏感。",
+        words: []
+      },
+      {
+        id: "s12",
+        text: "But nothing works... \"Then let me try!\"",
+        translation: "但是大家都没成功...“那让我来试试吧！”",
+        audioStart: 102.0,
+        audioEnd: 110.0,
+        grammarNote: "nothing works 都不起作用/都没成功；let me try 让我试试。",
+        words: []
+      },
+      {
+        id: "s13",
+        text: "Kanga bounces to the sky... Wheee!",
+        translation: "袋鼠高高跃向天空... 嗖——！",
+        audioStart: 110.0,
+        audioEnd: 114.0,
+        grammarNote: "to the sky 向着天空；Wheee 表示兴奋或快速运动时的拟声词。",
+        words: ["bounce"]
+      },
+      {
+        id: "s14",
+        text: "Again she jumps and bumps the tree.",
+        translation: "她再次起跳，轻轻撞了一下大树。",
+        audioStart: 115.0,
+        audioEnd: 120.0,
+        grammarNote: "Again 再次；jumps 跳跃；bumps 撞击。",
+        words: []
+      },
+      {
+        id: "s15",
+        text: "The baby monkey falls down... Wheee!",
+        translation: "小猴子掉了下来... 咻——！",
+        audioStart: 121.0,
+        audioEnd: 125.0,
+        grammarNote: "falls down 掉下来。",
+        words: ["monkey"]
+      },
+      {
+        id: "s16",
+        text: "Three frightened bats and meerkats cry: \"Baby monkeys cannot fly! He's going to crash! I can't look now!\"",
+        translation: "三只受惊的蝙蝠和猫鼬尖叫道：“小猴子不会飞啊！它要摔地上了！我不敢看了！”",
+        audioStart: 126.0,
+        audioEnd: 138.0,
+        grammarNote: "frightened 害怕的、受惊的；cannot fly 不会飞；going to crash 将要坠毁/摔碎；can't look now 现在不敢看。",
+        words: []
+      },
+      {
+        id: "s17",
+        text: "But Monkey lands in Kanga's pouch! Ouch! Hooray!",
+        translation: "结果小猴子稳稳落进了袋鼠的育儿袋里！哎呦！太棒啦！",
+        audioStart: 140.0,
+        audioEnd: 149.0,
+        grammarNote: "lands in 降落在...里；Kanga's 袋鼠的；pouch 育儿袋；Ouch 哎呦（表示疼）；Hooray 欢呼声（万岁/太棒了）。",
+        words: ["monkey", "pouch"]
+      }
+    ],
+    quizzes: [
+      {
+        id: "q1",
+        question: "Who got stuck in the tree?",
+        options: [
+          { text: "A baby monkey 🐒", isCorrect: true },
+          { text: "A bat 🦇", isCorrect: false },
+          { text: "A meerkat 🦦", isCorrect: false }
+        ]
+      },
+      {
+        id: "q2",
+        question: "How did Kangaroo save the baby monkey?",
+        options: [
+          { text: "She caught him in her pouch 🦘👜", isCorrect: true },
+          { text: "She used a ladder 🪜", isCorrect: false },
+          { text: "She lifted him down with her trunk 🐘", isCorrect: false }
+        ]
+      },
+      {
+        id: "q3",
+        question: "Which word means a loud noise or commotion?",
+        options: [
+          { text: "Hullabaloo 🗣️", isCorrect: true },
+          { text: "Pouch 👜", isCorrect: false },
+          { text: "Crate 📦", isCorrect: false }
+        ]
+      }
+    ]
   }
 ];
