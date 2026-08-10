@@ -496,7 +496,7 @@ export const booksData = [
   {
     id: "hyena-ballerina",
     title: "Hyena Ballerina",
-    difficulty: "L1",
+    difficulty: "L3",
     ageGroup: "4-6 years",
     coverEmoji: "🐆🩰🎭",
     coverColor: "var(--color-pink)",

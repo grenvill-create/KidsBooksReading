@@ -1,11 +1,15 @@
 /* src/components/ParentDashboard.jsx */
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, BarChart3, Settings, Play, Pause, Save, Copy, FileCode, Check, RefreshCw, Volume2, Sparkles, Download, Upload, RotateCcw, FileJson } from 'lucide-react';
+import { ChevronLeft, BarChart3, Settings, Play, Pause, Save, Copy, FileCode, Check, RefreshCw, Volume2, Sparkles, Download, Upload, RotateCcw, FileJson, BookOpen } from 'lucide-react';
 import { booksData } from '../data/booksData';
 
-export default function ParentDashboard({ book, books, onSwitchBook, onBackToLibrary, onUpdateBookSentences, onResetBookSentences }) {
-  const [activeTab, setActiveTab] = useState('aligner'); // 'aligner' | 'stats' | 'help'
+export default function ParentDashboard({ book, books, onSwitchBook, onBackToLibrary, onUpdateBookSentences, onResetBookSentences, onUpdateBookMeta }) {
+  const [activeTab, setActiveTab] = useState('metadata'); // 'metadata' | 'aligner' | 'stats' | 'help'
   const [sentences, setSentences] = useState(book.sentences);
+  const [metaDifficulty, setMetaDifficulty] = useState(book.difficulty || 'L1');
+  const [metaAgeGroup, setMetaAgeGroup] = useState(book.ageGroup || '4-6 years');
+  const [isSavingMeta, setIsSavingMeta] = useState(false);
+  const [saveMetaSuccess, setSaveMetaSuccess] = useState(false);
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -14,9 +18,11 @@ export default function ParentDashboard({ book, books, onSwitchBook, onBackToLib
 
   useEffect(() => {
     setSentences(book.sentences);
+    setMetaDifficulty(book.difficulty || 'L1');
+    setMetaAgeGroup(book.ageGroup || '4-6 years');
     setSelectedSentenceIndex(0);
     setDetectedSlices([]);
-  }, [book.id, book.sentences]);
+  }, [book.id, book.sentences, book.difficulty, book.ageGroup]);
 
   // Web Audio API Silence Detector States
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -105,6 +111,40 @@ export default function ParentDashboard({ book, books, onSwitchBook, onBackToLib
         shouldPlayRef.current = true;
         setSelectedSentenceIndex(idx);
       }
+    }
+  };
+
+  const saveBookMeta = async () => {
+    setIsSavingMeta(true);
+    setSaveMetaSuccess(false);
+
+    if (onUpdateBookMeta) {
+      onUpdateBookMeta(book.id, { difficulty: metaDifficulty, ageGroup: metaAgeGroup });
+    }
+
+    try {
+      const response = await fetch('/api/save-book-meta', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          bookId: book.id,
+          difficulty: metaDifficulty,
+          ageGroup: metaAgeGroup
+        })
+      });
+      const resData = await response.json();
+      if (resData.success) {
+        setSaveMetaSuccess(true);
+        setTimeout(() => setSaveMetaSuccess(false), 2000);
+      }
+    } catch (err) {
+      console.warn("Backend API save error:", err);
+      setSaveMetaSuccess(true);
+      setTimeout(() => setSaveMetaSuccess(false), 2000);
+    } finally {
+      setIsSavingMeta(false);
     }
   };
 
@@ -588,6 +628,13 @@ export default function ParentDashboard({ book, books, onSwitchBook, onBackToLib
       {/* Tabs */}
       <div className="parent-tabs">
         <button 
+          className={`parent-tab-btn ${activeTab === 'metadata' ? 'active' : ''}`}
+          onClick={() => setActiveTab('metadata')}
+        >
+          <BookOpen size={18} />
+          绘本基础设置
+        </button>
+        <button 
           className={`parent-tab-btn ${activeTab === 'aligner' ? 'active' : ''}`}
           onClick={() => setActiveTab('aligner')}
         >
@@ -611,6 +658,57 @@ export default function ParentDashboard({ book, books, onSwitchBook, onBackToLib
       </div>
 
       <div className="parent-tab-content bubble-card">
+        {activeTab === 'metadata' && (
+          <div className="metadata-layout animate-fade-in" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="metadata-intro bubble-card" style={{ background: '#f8fafc', borderLeft: '6px solid var(--color-blue)' }}>
+              <h3 style={{ marginBottom: 10 }}>📖 绘本基础信息设置</h3>
+              <p>在这里，您可以直接配置当前绘本的难度等级、适合年龄段等基础信息。修改后保存将自动更新网页并同步至 GitHub！</p>
+            </div>
+            
+            <div className="metadata-form bubble-card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label style={{ fontWeight: 'bold', color: 'var(--text-dark)' }}>当前绘本</label>
+                <input type="text" value={book.title} disabled style={{ padding: '10px', borderRadius: '8px', border: '1px solid #ccc', background: '#eee' }} />
+              </div>
+              
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label style={{ fontWeight: 'bold', color: 'var(--text-dark)' }}>难度等级 (Difficulty)</label>
+                <select 
+                  value={metaDifficulty} 
+                  onChange={(e) => setMetaDifficulty(e.target.value)}
+                  style={{ padding: '10px', borderRadius: '8px', border: '2px solid var(--color-blue)', fontSize: '15px', outline: 'none' }}
+                >
+                  <option value="L1">L1 (入门)</option>
+                  <option value="L2">L2 (初级)</option>
+                  <option value="L3">L3 (中级)</option>
+                  <option value="L4">L4 (高级)</option>
+                </select>
+              </div>
+              
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <label style={{ fontWeight: 'bold', color: 'var(--text-dark)' }}>适合年龄 (Age Group)</label>
+                <input 
+                  type="text" 
+                  value={metaAgeGroup} 
+                  onChange={(e) => setMetaAgeGroup(e.target.value)}
+                  placeholder="例如: 4-6 years"
+                  style={{ padding: '10px', borderRadius: '8px', border: '2px solid var(--color-blue)', fontSize: '15px', outline: 'none' }}
+                />
+              </div>
+            </div>
+            
+            <button 
+              className="btn-bubble btn-mint" 
+              style={{ alignSelf: 'flex-start', padding: '12px 24px', fontSize: '16px' }}
+              onClick={saveBookMeta} 
+              disabled={isSavingMeta}
+            >
+              {isSavingMeta ? <RefreshCw className="animate-spin" size={20} style={{ marginRight: 8 }} /> : (saveMetaSuccess ? <Check size={20} style={{ marginRight: 8 }} /> : <Save size={20} style={{ marginRight: 8 }} />)}
+              {isSavingMeta ? "正在保存并推送到 GitHub..." : (saveMetaSuccess ? "配置保存成功！" : "保存基础设置")}
+            </button>
+          </div>
+        )}
+
         {activeTab === 'aligner' && (
           <div className="aligner-layout animate-fade-in">
             <div className="aligner-left-panel">

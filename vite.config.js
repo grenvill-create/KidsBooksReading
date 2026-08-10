@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
+import { exec } from 'child_process'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
@@ -53,6 +54,17 @@ export default defineConfig(({ command }) => {
     {
       name: 'save-books-api',
       configureServer(server) {
+        const syncToGithub = () => {
+          exec('git add . && git commit -m "Auto-update book data from webpage" && git push', (error, stdout, stderr) => {
+            if (error) {
+              console.error(`Git sync error: ${error.message}`);
+              return;
+            }
+            if (stderr) console.log(`Git sync info: ${stderr}`);
+            console.log(`Git sync success: ${stdout}`);
+          });
+        };
+
         server.middlewares.use((req, res, next) => {
           if (req.url === '/api/save-books' && req.method === 'POST') {
             let body = '';
@@ -100,9 +112,52 @@ export default defineConfig(({ command }) => {
                 }
                 
                 fs.writeFileSync(dbPath, content, 'utf-8');
+                syncToGithub(); // trigger async git sync
                 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true, message: 'Saved successfully!' }));
+              } catch (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: err.message }));
+              }
+            });
+          } else if (req.url === '/api/save-book-meta' && req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => {
+              body += chunk.toString();
+            });
+            req.on('end', () => {
+              try {
+                const data = JSON.parse(body);
+                const { bookId, difficulty, ageGroup } = data;
+                
+                const dbPath = path.resolve(process.cwd(), 'src/data/booksData.js');
+                let content = fs.readFileSync(dbPath, 'utf-8');
+                
+                const bookStartIdx = content.indexOf(`id: "${bookId}"`);
+                if (bookStartIdx !== -1) {
+                  const titleIdx = content.indexOf('title:', bookStartIdx);
+                  const wordsIdx = content.indexOf('words:', bookStartIdx);
+                  
+                  if (titleIdx !== -1 && wordsIdx !== -1) {
+                    const bookHeaderBlock = content.substring(bookStartIdx, wordsIdx);
+                    let newBookHeaderBlock = bookHeaderBlock;
+                    
+                    if (difficulty) {
+                      newBookHeaderBlock = newBookHeaderBlock.replace(/difficulty:\s*"[^"]*"/, `difficulty: "${difficulty}"`);
+                    }
+                    if (ageGroup) {
+                      newBookHeaderBlock = newBookHeaderBlock.replace(/ageGroup:\s*"[^"]*"/, `ageGroup: "${ageGroup}"`);
+                    }
+                    
+                    content = content.substring(0, bookStartIdx) + newBookHeaderBlock + content.substring(wordsIdx);
+                    fs.writeFileSync(dbPath, content, 'utf-8');
+                    syncToGithub(); // trigger async git sync
+                  }
+                }
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, message: 'Metadata saved successfully!' }));
               } catch (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: false, error: err.message }));

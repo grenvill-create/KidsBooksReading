@@ -176,6 +176,10 @@ function App() {
                 setSelectedBook(originalBook);
               }
             }}
+            onUpdateBookMeta={(bookId, meta) => {
+              setBooksList(prev => prev.map(b => b.id === bookId ? { ...b, ...meta } : b));
+              setSelectedBook(prev => prev && prev.id === bookId ? { ...prev, ...meta } : prev);
+            }}
           />
         )}
       </main>
