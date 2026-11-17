@@ -903,5 +903,182 @@ export const booksData = [
         ]
       }
     ]
+  },
+  {
+    id: "pip-red-kite",
+    title: "Pip and the Red Kite",
+    difficulty: "L2",
+    ageGroup: "5-7 years",
+    coverEmoji: "🐶🪁🌳",
+    coverColor: "var(--color-mint)",
+    audioUrl: "book_sound/pip_and_the_red_kite_american.mp3",
+    summary: "It is a windy day in the park! Mia and her puppy Pip fly a bright red kite, until a big gust of wind blows it up into a tall tree. How will they get it down?",
+    words: {
+      windy: { translation: "刮风的", phonetic: "[ˈwɪndi]", emoji: "💨", example: "It is a windy day." },
+      kite: { translation: "风筝", phonetic: "[kaɪt]", emoji: "🪁", example: "Mia has a bright red kite." },
+      string: { translation: "细绳/线", phonetic: "[strɪŋ]", emoji: "🧵", example: "She holds the long string." },
+      gust: { translation: "一阵强风", phonetic: "[ɡʌst]", emoji: "🌬️", example: "A big gust of wind blows!" },
+      stuck: { translation: "卡住的", phonetic: "[stʌk]", emoji: "🌲", example: "The kite is stuck in the tree." },
+      branch: { translation: "树枝", phonetic: "[brɑːntʃ]", emoji: "🌿", example: "It sits on a high branch." },
+      ladder: { translation: "梯子", phonetic: "[ˈlædə(r)]", emoji: "🪜", example: "Dad brings a tall ladder." },
+      cheer: { translation: "欢呼", phonetic: "[tʃɪə(r)]", emoji: "🎉", example: "Mia and Pip jump and cheer!" }
+    },
+    sentences: [
+      {
+        id: "s1",
+        text: "It is a bright and windy day in the park.",
+        translation: "公园里今天阳光明媚，还刮着风。",
+        audioStart: 0.3,
+        audioEnd: 4.12,
+        grammarNote: "It is... 用来描述天气；bright 明亮的；windy 刮风的（名词 wind + y 变成形容词）。",
+        words: ["windy"]
+      },
+      {
+        id: "s2",
+        text: "Mia has a brand new red kite with a long tail.",
+        translation: "米娅有一个带长尾巴的崭新红风筝。",
+        audioStart: 4.67,
+        audioEnd: 9.3,
+        grammarNote: "has 表示拥有；brand new 是固定搭配，意思是“崭新的”；with 表示“带有”。",
+        words: ["kite"]
+      },
+      {
+        id: "s3",
+        text: "Her little puppy Pip wags his tail and barks happily.",
+        translation: "她的小狗皮普摇着尾巴，开心地汪汪叫。",
+        audioStart: 9.85,
+        audioEnd: 14.72,
+        grammarNote: "wags 摇摆，barks 吠叫，主语是单数 Pip，所以动词都加了 s；happily 是副词，修饰 barks。",
+        words: []
+      },
+      {
+        id: "s4",
+        text: "Mia runs across the green grass and lifts the kite up.",
+        translation: "米娅跑过绿色的草地，把风筝举起来。",
+        audioStart: 15.27,
+        audioEnd: 20.12,
+        grammarNote: "across 表示“穿过、横过”；lifts up 举起；and 连接两个并列动作 runs 和 lifts。",
+        words: ["kite"]
+      },
+      {
+        id: "s5",
+        text: "Up, up, up goes the red kite into the blue sky!",
+        translation: "红风筝越飞越高，飞进了蓝天里！",
+        audioStart: 20.67,
+        audioEnd: 25.54,
+        grammarNote: "这是一个倒装句，把方向副词 Up 放在句首，强调风筝不断往上升的感觉。",
+        words: ["kite"]
+      },
+      {
+        id: "s6",
+        text: "Mia holds the long string tightly in her hands.",
+        translation: "米娅双手紧紧地握住长长的风筝线。",
+        audioStart: 26.09,
+        audioEnd: 30.67,
+        grammarNote: "holds 握住；tightly 紧紧地（副词修饰 holds）；in her hands 在她手里。",
+        words: ["string"]
+      },
+      {
+        id: "s7",
+        text: "Suddenly, a big gust of wind blows very hard.",
+        translation: "突然，一阵大风猛烈地吹了过来。",
+        audioStart: 31.22,
+        audioEnd: 36.29,
+        grammarNote: "Suddenly 突然；a gust of wind 一阵风；blows 吹；very hard 非常猛烈地。",
+        words: ["gust"]
+      },
+      {
+        id: "s8",
+        text: "Whoosh! The string slips right out of Mia's hands!",
+        translation: "呼的一声！风筝线一下子从米娅手里滑脱了！",
+        audioStart: 36.84,
+        audioEnd: 42.48,
+        grammarNote: "Whoosh 是拟声词，模仿风吹过的声音；slips out of 从……滑脱；Mia's 表示“米娅的”。",
+        words: ["string"]
+      },
+      {
+        id: "s9",
+        text: "Pip chases the kite, barking, 'Woof! Come back!'",
+        translation: "皮普追着风筝跑，一边叫着：“汪！快回来！”",
+        audioStart: 43.03,
+        audioEnd: 48.91,
+        grammarNote: "chases 追赶；barking 是现在分词作伴随状语，表示“一边跑一边叫”。",
+        words: ["kite"]
+      },
+      {
+        id: "s10",
+        text: "Oh no! The red kite gets stuck in a tall oak tree.",
+        translation: "糟糕！红风筝卡在一棵高大的橡树上了。",
+        audioStart: 49.46,
+        audioEnd: 55.29,
+        grammarNote: "gets stuck 表示“被卡住了”；oak tree 橡树；Oh no! 表示惊讶或糟糕。",
+        words: ["kite", "stuck"]
+      },
+      {
+        id: "s11",
+        text: "It sits high up on a leafy branch, out of reach.",
+        translation: "它高高地挂在长满树叶的树枝上，够不着。",
+        audioStart: 55.84,
+        audioEnd: 60.5,
+        grammarNote: "leafy 长满树叶的；out of reach 是常用短语，意思是“够不着、鞭长莫及”。",
+        words: ["branch"]
+      },
+      {
+        id: "s12",
+        text: "Mia looks sad, so Pip runs fast to get Dad.",
+        translation: "米娅看起来很难过，于是皮普飞快地跑去叫爸爸。",
+        audioStart: 61.05,
+        audioEnd: 66.01,
+        grammarNote: "looks sad 看起来伤心（look 这里是系动词）；so 所以；to get Dad 去找爸爸来帮忙。",
+        words: []
+      },
+      {
+        id: "s13",
+        text: "Dad brings a tall ladder and carefully reaches the kite.",
+        translation: "爸爸拿来一把高梯子，小心地够到了风筝。",
+        audioStart: 66.56,
+        audioEnd: 71.44,
+        grammarNote: "brings 带来；carefully 小心地（副词）；reaches 伸手够到。",
+        words: ["ladder", "kite"]
+      },
+      {
+        id: "s14",
+        text: "Mia and Pip jump and cheer! Time to fly again!",
+        translation: "米娅和皮普开心地跳起来欢呼！又可以放风筝啦！",
+        audioStart: 71.99,
+        audioEnd: 77.72,
+        grammarNote: "jump and cheer 跳跃并欢呼；Time to... 是省略句，完整意思是 It is time to...（该做某事的时间到了）。",
+        words: ["cheer"]
+      }
+    ],
+    quizzes: [
+      {
+        id: "q1",
+        question: "What color is Mia's new kite?",
+        options: [
+          { text: "A bright red kite 🪁", isCorrect: true },
+          { text: "A yellow kite 💛", isCorrect: false },
+          { text: "A blue kite 💙", isCorrect: false }
+        ]
+      },
+      {
+        id: "q2",
+        question: "Where does the kite get stuck?",
+        options: [
+          { text: "In a tall oak tree 🌳", isCorrect: true },
+          { text: "In a muddy puddle 💦", isCorrect: false },
+          { text: "On top of a house 🏠", isCorrect: false }
+        ]
+      },
+      {
+        id: "q3",
+        question: "How does Dad help get the kite down?",
+        options: [
+          { text: "He brings a tall ladder 🪜", isCorrect: true },
+          { text: "He climbs with a rope 🪢", isCorrect: false },
+          { text: "He throws a ball ⚽", isCorrect: false }
+        ]
+      }
+    ]
   }
 ];
